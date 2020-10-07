@@ -1,0 +1,31 @@
+compat: v0
+id: btc-rpc-proxy
+version: "0.1.0"
+title: btc-rpc-proxy
+description:
+  short: "Finer-grained permission management for Bitcoin Core."
+  long: "This is a proxy made specifically for bitcoind to allow finer-grained control of permissions. It enables you to specify several users and for each user the list of RPC calls he's allowed to make."
+release-notes: https://github.com/Kixunil/btc-rpc-proxy/releases/tag/v0.1.0
+ports:
+  - internal: 8332
+    tor: 8332
+image:
+  type: tar
+mount: /root
+has-instructions: true
+os-version-required: ">=0.2.5"
+os-version-recommended: ">=0.2.5"
+assets: []
+hidden-service-version: v3
+dependencies:
+  bitcoind:
+    version: "^0.19.1"
+    optional: Can configure an external bitcoin node.
+    description: Needed to forward RPC calls to.
+    config:
+      - rule: 'rpc.enable?'
+        description: 'Must have an RPC enabled'
+        suggestions:
+          - SET:
+              var: 'rpc.enable'
+              to-value: true

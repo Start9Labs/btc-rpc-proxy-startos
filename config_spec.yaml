@@ -1,0 +1,88 @@
+bitcoind:
+  type: union
+  name: Bitcoin Core
+  description: |
+    The Bitcoin Core node to connect to:
+      - internal: The Bitcoin Core service installed to your Embassy
+      - external: A Bitcoin Core node running on a different device
+      - quick-connect: A Quick Connect URL for an unpruned Bitcoin Core node
+  tag: type
+  default: internal
+  variants:
+    internal:
+      address:
+        type: pointer
+        name: Local Address
+        description: The LAN IP address of your Bitcoin Core service
+        subtype: app
+        app-id: bitcoind
+        target: lan-address
+      user:
+        type: pointer
+        name: RPC Username
+        description: The username for the RPC user for Bitcoin Core
+        subtype: app
+        app-id: bitcoind
+        target: config
+        index: 'rpc.username'
+      password:
+        type: pointer
+        name: RPC Password
+        description: The password for the RPC user for Bitcoin Core
+        subtype: app
+        app-id: bitcoind
+        target: config
+        index: 'rpc.password'
+    external:
+      address:
+        type: string
+        name: Public Address
+        description: The public address of your Bitcoin Core RPC server
+        nullable: false
+      user:
+        type: string
+        name: RPC Username
+        description: The username for the RPC user on your Bitcoin Core RPC server
+        nullable: false
+      password:
+        type: string
+        name: RPC Password
+        description: The password for the RPC user on your Bitcoin Core RPC server
+        nullable: false
+    quick-connect:
+      quick-connect-url:
+        type: string
+        name: Quick Connect URL
+        description: The Quick Connect URL for your Bitcoin Core RPC server
+        nullable: false
+        pattern: 'btcstandup://[^:]*:[^@]*@[a-zA-Z0-9.-]+:[0-9]+(/(\?(label=.+)?)?)?'
+        patternDescription: Must be a valid Quick Connect URL. For help, check out https://github.com/BlockchainCommons/Gordian/blob/master/Docs/Quick-Connect-API.md
+users:
+  type: list
+  name: RPC Users
+  description: Credentials and permissions for each RPC User
+  subtype: object
+  range: "[0,*)"
+  spec:
+    type: object
+    spec:
+      name:
+        type: string
+        name: Username
+        description: The username for the RPC User
+        nullable: false
+        default: bitcoin
+      password:
+        type: string
+        name: Password
+        description: The password for the RPC User
+        nullable: false
+        default:
+          charset: 'a-z,A-Z,0-9'
+          len: 22
+      fetch-blocks:
+        type: boolean
+        name: Fetch Blocks
+        description: Fetch blocks from the network if pruned from disk
+        default: false
+  default: []
