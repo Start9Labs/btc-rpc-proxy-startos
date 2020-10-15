@@ -1,8 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
 set -euo pipefail
 
-while [ 1 -eq 1 ]; do
-  sleep 5
-  echo Running...
-done
+export HOST_IP=$(ip -4 route list match 0/0 | awk '{print $3}')
+
+exec tini btc-rpc-proxy

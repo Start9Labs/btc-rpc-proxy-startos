@@ -1,0 +1,3 @@
+[submodule "btc-rpc-proxy"]
+	path = btc-rpc-proxy
+	url = git@github.com:Start9Labs/btc-rpc-proxy.git
