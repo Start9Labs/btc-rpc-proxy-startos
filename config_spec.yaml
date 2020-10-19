@@ -377,4 +377,4 @@ advanced:
       integral: true
       units: Seconds
       range: "[0, *)"
-      default: 30
+      default: 300

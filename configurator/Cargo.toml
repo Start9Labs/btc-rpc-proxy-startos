@@ -1,0 +1,25 @@
+[package]
+name = "configurator"
+version = "0.1.0"
+authors = ["Aiden McClelland <me@drbonez.dev>"]
+edition = "2018"
+
+[[bin]]
+name = "btc-rpc-proxy"
+path = "src/main.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.33"
+bitcoin = { version = "0.25.0", features = ["use-serde"] }
+bitcoin_hashes = { version = "=0.9.0", features = ["serde"] }
+btc-rpc-proxy = { path = "../btc-rpc-proxy" }
+http = "0.2.1"
+hyper = "0.13.8"
+serde = { version = "1.0.117", features = ["derive"] }
+serde_yaml = "0.8.13"
+slog = "2.5.2"
+slog-async = "*"
+slog-term = "*"
+tokio = { version = "0.2.22", features = ["full"] }
