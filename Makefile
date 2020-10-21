@@ -2,7 +2,7 @@ ASSETS := $(shell yq r manifest.yaml assets.*.src)
 ASSET_PATHS := $(addprefix assets/,$(ASSETS))
 VERSION := $(shell yq r manifest.yaml version)
 BTC_RPC_PROXY_SRC := $(shell find ./btc-rpc-proxy/src -name '*.rs') btc-rpc-proxy/Cargo.toml btc-rpc-proxy/Cargo.lock
-CONFIGURATOR_SRC := $(shell find ./configurator/src -name '*.rs') btc-rpc-proxy/Cargo.toml btc-rpc-proxy/Cargo.lock
+CONFIGURATOR_SRC := $(shell find ./configurator/src -name '*.rs') configurator/Cargo.toml configurator/Cargo.lock
 
 .DELETE_ON_ERROR:
 

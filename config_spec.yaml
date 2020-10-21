@@ -1,12 +1,18 @@
 bitcoind:
   type: union
   name: Bitcoin Core
-  description: |
-    The Bitcoin Core node to connect to:
-      - internal: The Bitcoin Core service installed to your Embassy
-      - external: A Bitcoin Core node running on a different device
-      - quick-connect: A Quick Connect URL for an unpruned Bitcoin Core node
-  tag: type
+  description: The Bitcoin Core node to connect to
+  tag:
+    id: type
+    name: Type
+    description: |
+      - Internal: The Bitcoin Core service installed to your Embassy
+      - External: A Bitcoin Core node running on a different device
+      - Quick Connect: A Quick Connect URL for an unpruned Bitcoin Core node
+    variantNames:
+      internal: Internal
+      external: External
+      quick-connect: Quick Connect
   default: internal
   variants:
     internal:
@@ -58,34 +64,167 @@ bitcoind:
         pattern: 'btcstandup://[^:]*:[^@]*@[a-zA-Z0-9.-]+:[0-9]+(/(\?(label=.+)?)?)?'
         patternDescription: Must be a valid Quick Connect URL. For help, check out https://github.com/BlockchainCommons/Gordian/blob/master/Docs/Quick-Connect-API.md
 users:
-  type: map
+  type: list
   name: RPC Users
   description: Credentials and permissions for each RPC User
-  subtype: object
-  tag:
-    type: string
-    name: Username
-    description: The username for the RPC User
-    default: bitcoin
   range: "[0,*)"
+  subtype: object
   spec:
-    password:
-      type: string
-      name: Password
-      description: The password for the RPC User
-      nullable: false
-      default:
-        charset: "a-z,A-Z,0-9"
-        len: 22
-    allowed-calls:
-      type: list
-      name: Allowed Calls
-      description: The list of all RPC methods this user is allowed to make
-      subtype: enum
-      range: "[0, *)"
-      spec:
-        type: enum
-        values:
+    uniqueBy: name
+    displayAs: "{{name}}"
+    spec:
+      name:
+        type: string
+        name: Username
+        description: The username for the RPC User
+        nullable: false
+        default: bitcoin
+      password:
+        type: string
+        name: Password
+        description: The password for the RPC User
+        nullable: false
+        default:
+          charset: "a-z,A-Z,0-9"
+          len: 22
+      allowed-calls:
+        type: list
+        name: Allowed Calls
+        description: The list of all RPC methods this user is allowed to make
+        subtype: enum
+        range: "[0, *)"
+        spec:
+          type: enum
+          values:
+            - getbestblockhash
+            - getblock
+            - getblockchaininfo
+            - getblockcount
+            - getblockhash
+            - getblockheader
+            - getblockstats
+            - getchaintips
+            - getchaintxstats
+            - getdifficulty
+            - getmempoolancestors
+            - getmempooldescendants
+            - getmempoolentry
+            - getmempoolinfo
+            - getrawmempool
+            - gettxout
+            - gettxoutproof
+            - gettxoutsetinfo
+            - preciousblock
+            - pruneblockchain
+            - savemempool
+            - scantxoutset
+            - verifychain
+            - verifytxoutproof
+            - getmemoryinfo
+            - getrpcinfo
+            - help
+            - logging
+            - stop
+            - uptime
+            - generate
+            - generatetoaddress
+            - getblocktemplate
+            - getmininginfo
+            - getnetworkhashps
+            - prioritisetransaction
+            - submitblock
+            - submitheader
+            - addnode
+            - clearbanned
+            - disconnectnode
+            - getaddednodeinfo
+            - getconnectioncount
+            - getnettotals
+            - getnetworkinfo
+            - getnodeaddresses
+            - getpeerinfo
+            - listbanned
+            - ping
+            - setban
+            - setnetworkactive
+            - analyzepsbt
+            - combinepsbt
+            - combinerawtransaction
+            - converttopsbt
+            - createpsbt
+            - createrawtransaction
+            - decodepsbt
+            - decoderawtransaction
+            - decodescript
+            - finalizepsbt
+            - fundrawtransaction
+            - getrawtransaction
+            - joinpsbts
+            - sendrawtransaction
+            - signrawtransactionwithkey
+            - testmempoolaccept
+            - utxoupdatepsbt
+            - createmultisig
+            - deriveaddresses
+            - estimatesmartfee
+            - getdescriptorinfo
+            - signmessagewithprivkey
+            - validateaddress
+            - verifymessage
+            - abandontransaction
+            - abortrescan
+            - addmultisigaddress
+            - backupwallet
+            - bumpfee
+            - createwallet
+            - dumpprivkey
+            - dumpwallet
+            - encryptwallet
+            - getaddressesbylabel
+            - getaddressinfo
+            - getbalance
+            - getnewaddress
+            - getrawchangeaddress
+            - getreceivedbyaddress
+            - getreceivedbylabel
+            - gettransaction
+            - getunconfirmedbalance
+            - getwalletinfo
+            - importaddress
+            - importmulti
+            - importprivkey
+            - importprunedfunds
+            - importpubkey
+            - importwallet
+            - keypoolrefill
+            - listaddressgroupings
+            - listlabels
+            - listlockunspent
+            - listreceivedbyaddress
+            - listreceivedbylabel
+            - listsinceblock
+            - listtransactions
+            - listunspent
+            - listwalletdir
+            - listwallets
+            - loadwallet
+            - lockunspent
+            - removeprunedfunds
+            - rescanblockchain
+            - sendmany
+            - sendtoaddress
+            - sethdseed
+            - setlabel
+            - settxfee
+            - signmessage
+            - signrawtransactionwithwallet
+            - unloadwallet
+            - walletcreatefundedpsbt
+            - walletlock
+            - walletpassphrase
+            - walletpassphrasechange
+            - walletprocesspsbt
+        default:
           - getbestblockhash
           - getblock
           - getblockchaininfo
@@ -214,141 +353,12 @@ users:
           - walletpassphrase
           - walletpassphrasechange
           - walletprocesspsbt
-      default:
-        - getbestblockhash
-        - getblock
-        - getblockchaininfo
-        - getblockcount
-        - getblockhash
-        - getblockheader
-        - getblockstats
-        - getchaintips
-        - getchaintxstats
-        - getdifficulty
-        - getmempoolancestors
-        - getmempooldescendants
-        - getmempoolentry
-        - getmempoolinfo
-        - getrawmempool
-        - gettxout
-        - gettxoutproof
-        - gettxoutsetinfo
-        - preciousblock
-        - pruneblockchain
-        - savemempool
-        - scantxoutset
-        - verifychain
-        - verifytxoutproof
-        - getmemoryinfo
-        - getrpcinfo
-        - help
-        - logging
-        - stop
-        - uptime
-        - generate
-        - generatetoaddress
-        - getblocktemplate
-        - getmininginfo
-        - getnetworkhashps
-        - prioritisetransaction
-        - submitblock
-        - submitheader
-        - addnode
-        - clearbanned
-        - disconnectnode
-        - getaddednodeinfo
-        - getconnectioncount
-        - getnettotals
-        - getnetworkinfo
-        - getnodeaddresses
-        - getpeerinfo
-        - listbanned
-        - ping
-        - setban
-        - setnetworkactive
-        - analyzepsbt
-        - combinepsbt
-        - combinerawtransaction
-        - converttopsbt
-        - createpsbt
-        - createrawtransaction
-        - decodepsbt
-        - decoderawtransaction
-        - decodescript
-        - finalizepsbt
-        - fundrawtransaction
-        - getrawtransaction
-        - joinpsbts
-        - sendrawtransaction
-        - signrawtransactionwithkey
-        - testmempoolaccept
-        - utxoupdatepsbt
-        - createmultisig
-        - deriveaddresses
-        - estimatesmartfee
-        - getdescriptorinfo
-        - signmessagewithprivkey
-        - validateaddress
-        - verifymessage
-        - abandontransaction
-        - abortrescan
-        - addmultisigaddress
-        - backupwallet
-        - bumpfee
-        - createwallet
-        - dumpprivkey
-        - dumpwallet
-        - encryptwallet
-        - getaddressesbylabel
-        - getaddressinfo
-        - getbalance
-        - getnewaddress
-        - getrawchangeaddress
-        - getreceivedbyaddress
-        - getreceivedbylabel
-        - gettransaction
-        - getunconfirmedbalance
-        - getwalletinfo
-        - importaddress
-        - importmulti
-        - importprivkey
-        - importprunedfunds
-        - importpubkey
-        - importwallet
-        - keypoolrefill
-        - listaddressgroupings
-        - listlabels
-        - listlockunspent
-        - listreceivedbyaddress
-        - listreceivedbylabel
-        - listsinceblock
-        - listtransactions
-        - listunspent
-        - listwalletdir
-        - listwallets
-        - loadwallet
-        - lockunspent
-        - removeprunedfunds
-        - rescanblockchain
-        - sendmany
-        - sendtoaddress
-        - sethdseed
-        - setlabel
-        - settxfee
-        - signmessage
-        - signrawtransactionwithwallet
-        - unloadwallet
-        - walletcreatefundedpsbt
-        - walletlock
-        - walletpassphrase
-        - walletpassphrasechange
-        - walletprocesspsbt
-    fetch-blocks:
-      type: boolean
-      name: Fetch Blocks
-      description: Fetch blocks from the network if pruned from disk
-      default: true
-  default: {}
+      fetch-blocks:
+        type: boolean
+        name: Fetch Blocks
+        description: Fetch blocks from the network if pruned from disk
+        default: true
+  default: []
 advanced:
   type: object
   name: Advanced

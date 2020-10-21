@@ -2,7 +2,9 @@ use std::net::IpAddr;
 use std::time::Duration;
 
 use anyhow::Error;
-use btc_rpc_proxy::{util::deserialize_parse, AuthSource, Env, PeerList, RpcClient, TorEnv, Users};
+use btc_rpc_proxy::{
+    util::deserialize_parse, AuthSource, Env, PeerList, RpcClient, TorEnv, User, Users,
+};
 use http::uri;
 use hyper::Uri;
 use slog::Drain;
@@ -12,8 +14,16 @@ use tokio::sync::Mutex;
 #[serde(rename_all = "kebab-case")]
 struct Config {
     pub bitcoind: BitcoinCoreConfig,
-    pub users: Users,
+    pub users: Vec<UserInfo>,
     pub advanced: AdvancedConfig,
+}
+
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "kebab-case")]
+struct UserInfo {
+    pub name: String,
+    #[serde(flatten)]
+    pub info: User,
 }
 
 #[derive(serde::Deserialize)]
@@ -74,15 +84,14 @@ async fn main() -> Result<(), Error> {
                     name: "Quick Connect URLs".to_owned(),
                     value: cfg
                         .users
-                        .0
                         .iter()
-                        .map(|(name, info)| Property {
-                            name: name.clone(),
+                        .map(|user| Property {
+                            name: user.name.clone(),
                             value: format!(
                                 "btcstandup://{}:{}@{}:8332/",
-                                name, info.password, tor_addr
+                                user.name, user.info.password, tor_addr
                             ),
-                            description: Some(format!("Quick Connect URL for {}", name)),
+                            description: Some(format!("Quick Connect URL for {}", user.name)),
                             copyable: true,
                             qr: true,
                         })
@@ -158,13 +167,18 @@ async fn main() -> Result<(), Error> {
                 proxy: format!("{}:9050", std::env::var("HOST_IP")?).parse()?,
                 only: cfg.advanced.tor_only,
             }),
-            users: cfg.users,
+            users: Users(
+                cfg.users
+                    .into_iter()
+                    .map(|user| (user.name, user.info))
+                    .collect(),
+            ),
             logger,
             peer_timeout: Duration::from_secs(cfg.advanced.peer_timeout),
             peers: Mutex::new(PeerList::new()),
             max_peer_age: Duration::from_secs(cfg.advanced.max_peer_age),
         }
-        .leak(),
+        .arc(),
     )
     .await
 }
