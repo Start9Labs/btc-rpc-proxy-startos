@@ -7,6 +7,7 @@ use btc_rpc_proxy::{
 };
 use http::uri;
 use hyper::Uri;
+use linear_map::LinearMap;
 use slog::Drain;
 use tokio::sync::Mutex;
 
@@ -58,12 +59,17 @@ enum BitcoinCoreConfig {
 #[derive(serde::Serialize)]
 pub struct Properties {
     version: u8,
-    data: (Property<Vec<Property<String>>>,),
+    data: Data,
+}
+
+#[derive(serde::Serialize)]
+pub struct Data {
+    #[serde(rename = "Quick Connect URLs")]
+    quick_connect_urls: Property<LinearMap<String, Property<String>>>,
 }
 
 #[derive(serde::Serialize)]
 pub struct Property<T> {
-    name: String,
     value: T,
     description: Option<String>,
     copyable: bool,
@@ -79,27 +85,35 @@ async fn main() -> Result<(), Error> {
         serde_yaml::to_writer(
             std::fs::File::create("/root/start9/stats.yaml")?,
             &Properties {
-                version: 1,
-                data: (Property {
-                    name: "Quick Connect URLs".to_owned(),
-                    value: cfg
-                        .users
-                        .iter()
-                        .map(|user| Property {
-                            name: user.name.clone(),
-                            value: format!(
-                                "btcstandup://{}:{}@{}:8332/",
-                                user.name, user.info.password, tor_addr
-                            ),
-                            description: Some(format!("Quick Connect URL for {}", user.name)),
-                            copyable: true,
-                            qr: true,
-                        })
-                        .collect(),
-                    description: Some("Quick Connect URLs for each user".to_owned()),
-                    copyable: false,
-                    qr: false,
-                },),
+                version: 2,
+                data: Data {
+                    quick_connect_urls: Property {
+                        value: cfg
+                            .users
+                            .iter()
+                            .map(|user| {
+                                (
+                                    user.name.clone(),
+                                    Property {
+                                        value: format!(
+                                            "btcstandup://{}:{}@{}:8332/",
+                                            user.name, user.info.password, tor_addr
+                                        ),
+                                        description: Some(format!(
+                                            "Quick Connect URL for {}",
+                                            user.name
+                                        )),
+                                        copyable: true,
+                                        qr: true,
+                                    },
+                                )
+                            })
+                            .collect(),
+                        description: Some("Quick Connect URLs for each user".to_owned()),
+                        copyable: false,
+                        qr: false,
+                    },
+                },
             },
         )?;
         Ok(cfg)
