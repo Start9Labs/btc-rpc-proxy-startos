@@ -65,15 +65,24 @@ pub struct Properties {
 #[derive(serde::Serialize)]
 pub struct Data {
     #[serde(rename = "Quick Connect URLs")]
-    quick_connect_urls: Property<LinearMap<String, Property<String>>>,
+    quick_connect_urls: Property,
 }
 
 #[derive(serde::Serialize)]
-pub struct Property<T> {
-    value: T,
-    description: Option<String>,
-    copyable: bool,
-    qr: bool,
+#[serde(rename_all = "kebab-case")]
+#[serde(tag = "type")]
+pub enum Property {
+    String {
+        value: String,
+        description: Option<String>,
+        copyable: bool,
+        qr: bool,
+        masked: bool,
+    },
+    Object {
+        value: LinearMap<String, Property>,
+        description: Option<String>,
+    },
 }
 
 #[tokio::main]
@@ -87,14 +96,14 @@ async fn main() -> Result<(), Error> {
             &Properties {
                 version: 2,
                 data: Data {
-                    quick_connect_urls: Property {
+                    quick_connect_urls: Property::Object {
                         value: cfg
                             .users
                             .iter()
                             .map(|user| {
                                 (
                                     user.name.clone(),
-                                    Property {
+                                    Property::String {
                                         value: format!(
                                             "btcstandup://{}:{}@{}:8332/",
                                             user.name, user.info.password, tor_addr
@@ -105,13 +114,12 @@ async fn main() -> Result<(), Error> {
                                         )),
                                         copyable: true,
                                         qr: true,
+                                        masked: true,
                                     },
                                 )
                             })
                             .collect(),
                         description: Some("Quick Connect URLs for each user".to_owned()),
-                        copyable: false,
-                        qr: false,
                     },
                 },
             },
