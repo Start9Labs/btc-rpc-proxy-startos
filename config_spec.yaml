@@ -98,6 +98,7 @@ users:
           values:
             - getbestblockhash
             - getblock
+            - getinfo
             - getblockchaininfo
             - getblockcount
             - getblockhash
@@ -227,6 +228,7 @@ users:
         default:
           - getbestblockhash
           - getblock
+          - getinfo
           - getblockchaininfo
           - getblockcount
           - getblockhash
