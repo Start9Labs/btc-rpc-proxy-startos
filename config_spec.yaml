@@ -99,6 +99,7 @@ users:
             - getbestblockhash
             - getblock
             - getblockchaininfo
+            - getinfo
             - getblockcount
             - getblockhash
             - getblockheader
@@ -228,6 +229,7 @@ users:
           - getbestblockhash
           - getblock
           - getblockchaininfo
+          - getinfo
           - getblockcount
           - getblockhash
           - getblockheader
