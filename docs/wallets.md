@@ -21,4 +21,4 @@
 - Linux (x86_64)
 
 ### Instructions
-1. Follow this [tutorial](/docs/integrations/specter), except instead of using your Bitcoin Core credentials, use your Bitcoin Proxy credentials.
+1. Follow this [tutorial](https://github.com/Start9Labs/bitcoind-wrapper/tree/master/docs/integrations/specter), except instead of using your Bitcoin Core credentials, use your Bitcoin Proxy credentials.
