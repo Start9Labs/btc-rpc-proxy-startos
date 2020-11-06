@@ -20,8 +20,8 @@ hidden-service-version: v3
 dependencies:
   bitcoind:
     version: "^0.20.0"
-    optional: Can configure an external bitcoin node.
-    description: Needed to forward RPC calls to.
+    optional: Can alternatively configure an external bitcoin node.
+    description: Bitcoin Proxy sends RPC requests to a bitcoin node, like the Bitcoin Core service.
     config:
       - rule: "rpc.enable?"
         description: "Must have an RPC enabled"
