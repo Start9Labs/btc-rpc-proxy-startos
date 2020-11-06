@@ -231,9 +231,42 @@ users:
             - walletpassphrasechange
             - walletprocesspsbt
         default:
+          - abandontransaction
+          - abortrescan
+          - addmultisigaddress
+          - addnode
+          - analyzepsbt
+          - backupwallet
+          - bumpfee
+          - clearbanned
+          - combinepsbt
+          - combinerawtransaction
+          - converttopsbt
+          - createmultisig
+          - createpsbt
+          - createrawtransaction
+          - createwallet
+          - decodepsbt
+          - decoderawtransaction
+          - decodescript
+          - deriveaddresses
+          - disconnectnode
+          - dumpprivkey
+          - dumpwallet
+          - encryptwallet
+          - estimatesmartfee
+          - finalizepsbt
+          - fundrawtransaction
+          - generate
+          - generatetoaddress
+          - getaddednodeinfo
+          - getaddressesbylabel
+          - getaddressinfo
+          - getbalance
           - getbestblockhash
           - getblock
           - getblockchaininfo
+          - getblocktemplate
           - getinfo
           - getblockcount
           - getblockhash
@@ -241,99 +274,44 @@ users:
           - getblockstats
           - getchaintips
           - getchaintxstats
+          - getconnectioncount
+          - getdescriptorinfo
           - getdifficulty
+          - getmemoryinfo
           - getmempoolancestors
           - getmempooldescendants
           - getmempoolentry
           - getmempoolinfo
+          - getmininginfo
+          - getnettotals
+          - getnetworkhashps
+          - getnetworkinfo
+          - getnewaddress
+          - getnodeaddresses
+          - getpeerinfo
+          - getrawchangeaddress
           - getrawmempool
+          - getrawtransaction
+          - getreceivedbyaddress
+          - getreceivedbylabel
+          - getrpcinfo
+          - gettransaction
           - gettxout
           - gettxoutproof
           - gettxoutsetinfo
-          - preciousblock
-          - pruneblockchain
-          - savemempool
-          - scantxoutset
-          - verifychain
-          - verifytxoutproof
-          - getmemoryinfo
-          - getrpcinfo
-          - help
-          - logging
-          - stop
-          - uptime
-          - generate
-          - generatetoaddress
-          - getblocktemplate
-          - getmininginfo
-          - getnetworkhashps
-          - prioritisetransaction
-          - submitblock
-          - submitheader
-          - addnode
-          - clearbanned
-          - disconnectnode
-          - getaddednodeinfo
-          - getconnectioncount
-          - getnettotals
-          - getnetworkinfo
-          - getnodeaddresses
-          - getpeerinfo
-          - listbanned
-          - ping
-          - setban
-          - setnetworkactive
-          - analyzepsbt
-          - combinepsbt
-          - combinerawtransaction
-          - converttopsbt
-          - createpsbt
-          - createrawtransaction
-          - decodepsbt
-          - decoderawtransaction
-          - decodescript
-          - finalizepsbt
-          - fundrawtransaction
-          - getrawtransaction
-          - joinpsbts
-          - sendrawtransaction
-          - signrawtransactionwithkey
-          - testmempoolaccept
-          - utxoupdatepsbt
-          - createmultisig
-          - deriveaddresses
-          - estimatesmartfee
-          - getdescriptorinfo
-          - signmessagewithprivkey
-          - validateaddress
-          - verifymessage
-          - abandontransaction
-          - abortrescan
-          - addmultisigaddress
-          - backupwallet
-          - bumpfee
-          - createwallet
-          - dumpprivkey
-          - dumpwallet
-          - encryptwallet
-          - getaddressesbylabel
-          - getaddressinfo
-          - getbalance
-          - getnewaddress
-          - getrawchangeaddress
-          - getreceivedbyaddress
-          - getreceivedbylabel
-          - gettransaction
           - getunconfirmedbalance
           - getwalletinfo
+          - help
           - importaddress
           - importmulti
           - importprivkey
           - importprunedfunds
           - importpubkey
           - importwallet
+          - joinpsbts            
           - keypoolrefill
           - listaddressgroupings
+          - listbanned
           - listlabels
           - listlockunspent
           - listreceivedbyaddress
@@ -345,16 +323,38 @@ users:
           - listwallets
           - loadwallet
           - lockunspent
+          - logging
+          - ping
+          - preciousblock
+          - prioritisetransaction
+          - pruneblockchain
           - removeprunedfunds
           - rescanblockchain
+          - savemempool
+          - scantxoutset
           - sendmany
+          - sendrawtransaction
           - sendtoaddress
+          - setban
           - sethdseed
           - setlabel
           - settxfee
           - signmessage
           - signrawtransactionwithwallet
+          - setnetworkactive
+          - signmessagewithprivkey
+          - signrawtransactionwithkey
+          - stop
+          - submitblock
+          - submitheader
+          - testmempoolaccept
           - unloadwallet
+          - uptime
+          - utxoupdatepsbt
+          - validateaddress
+          - verifychain
+          - verifymessage
+          - verifytxoutproof
           - walletcreatefundedpsbt
           - walletlock
           - walletpassphrase
