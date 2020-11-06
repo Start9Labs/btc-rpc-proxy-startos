@@ -40,17 +40,17 @@ bitcoind:
         target: config
         index: "rpc.password"
     external:
-      address:
+      addressext:
         type: string
         name: Public Address
         description: The public address of your Bitcoin Core RPC server
         nullable: false
-      user:
+      userext:
         type: string
         name: RPC Username
         description: The username for the RPC user on your Bitcoin Core RPC server
         nullable: false
-      password:
+      passwordext:
         type: string
         name: RPC Password
         description: The password for the RPC user on your Bitcoin Core RPC server
