@@ -1,13 +1,13 @@
-# Bitcoin Proxy
+# Usage Instructions
 
-### Config
+## Dependencies
 
-You can add, remove, and edit users, as well as set their permissions to your Bitcoin node.
+Bitcoin Proxy requires a Bitcoin node to function. By default, Bitcoin Proxy will connect to the Bitcoin Core node running on your Embassy.
 
-### Dependencies
+## Config
 
-Bitcoin Proxy requires a Bitcoin node to function. Once you have Bitcoin Core installed and running, you can start Bitcoin Proxy.
+You must create at least one user to your Bitcoin Proxy config. Each user you create will receive their own RPC useranme and password, which can be used for remote access.
 
-### Using a Wallet
+## Using a Wallet
 
-For a full list of compatible wallets, see <a href="https://github.com/start9labs/btc-rpx-proxy-wrapper/blob/master/docs/wallets.md" target="_blank">https://github.com/start9labs/btc-rpx-proxy-wrapper/blob/master/docs/wallets.md</a> (this link will not work in the Consulate).
+Enter your user's QuickConnect QR code (located in `properties`) **OR** your raw user credentials (located in `Config`) into any wallet that supports connecting to a remote node over Tor. For a full list of compatible wallets, see <a href="https://github.com/start9labs/btc-rpx-proxy-wrapper/blob/master/docs/wallets.md" target="_blank">https://github.com/start9labs/btc-rpx-proxy-wrapper/blob/master/docs/wallets.md</a>.
