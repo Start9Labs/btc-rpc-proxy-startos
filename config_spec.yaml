@@ -85,6 +85,8 @@ users:
         name: Password
         description: The password for the RPC User
         nullable: false
+        copyable: true
+        masked: true
         default:
           charset: "a-z,A-Z,0-9"
           len: 22
