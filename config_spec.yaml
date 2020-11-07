@@ -90,8 +90,6 @@ users:
         default:
           charset: "a-z,A-Z,0-9"
           len: 22
-        copyable: true
-        masked: true
       allowed-calls:
         type: list
         name: Allowed Calls
@@ -123,6 +121,7 @@ users:
             - disconnectnode
             - dumpprivkey
             - dumpwallet
+            - echo
             - encryptwallet
             - estimatesmartfee
             - finalizepsbt
@@ -178,7 +177,7 @@ users:
             - importprunedfunds
             - importpubkey
             - importwallet
-            - joinpsbts            
+            - joinpsbts
             - keypoolrefill
             - listaddressgroupings
             - listbanned
@@ -253,6 +252,7 @@ users:
           - disconnectnode
           - dumpprivkey
           - dumpwallet
+          - echo
           - encryptwallet
           - estimatesmartfee
           - finalizepsbt
@@ -308,7 +308,7 @@ users:
           - importprunedfunds
           - importpubkey
           - importwallet
-          - joinpsbts            
+          - joinpsbts
           - keypoolrefill
           - listaddressgroupings
           - listbanned
