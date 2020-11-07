@@ -48,9 +48,9 @@ enum BitcoinCoreConfig {
     #[serde(rename_all = "kebab-case")]
     External {
         #[serde(deserialize_with = "deserialize_parse")]
-        address: Uri,
-        user: String,
-        password: String,
+        addressext: Uri,
+        userext: String,
+        passwordext: String,
     },
     #[serde(rename_all = "kebab-case")]
     QuickConnect {
@@ -150,16 +150,16 @@ async fn main() -> Result<(), Error> {
                     format!("http://{}:8332/", address).parse()?,
                 )?,
                 BitcoinCoreConfig::External {
-                    address,
-                    user,
-                    password,
+                    addressext,
+                    userext,
+                    passwordext,
                 } => RpcClient::new(
                     AuthSource::Const {
-                        username: user,
-                        password,
+                        username: userext,
+                        password: passwordext,
                     },
                     Uri::from_parts({
-                        let mut addr = address.into_parts();
+                        let mut addr = addressext.into_parts();
                         addr.scheme = Some(uri::Scheme::HTTP);
                         addr.path_and_query = None;
                         if let Some(ref auth) = addr.authority {
