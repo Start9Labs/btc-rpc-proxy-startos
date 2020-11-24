@@ -179,8 +179,12 @@ async fn main() -> Result<(), Error> {
                     let password = auth_split.next().map(|s| s.to_owned());
                     RpcClient::new(
                         AuthSource::from_config(user, password, None)?,
-                        format!("http://{}:{}", auth.host(), auth.port_u16().unwrap_or(8332))
-                            .parse()?,
+                        format!(
+                            "http://{}:{}/",
+                            auth.host(),
+                            auth.port_u16().unwrap_or(8332)
+                        )
+                        .parse()?,
                     )?
                 }
             },
