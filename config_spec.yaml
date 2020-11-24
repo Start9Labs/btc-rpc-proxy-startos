@@ -132,6 +132,7 @@ users:
             - getaddressesbylabel
             - getaddressinfo
             - getbalance
+            - getbalances
             - getbestblockhash
             - getblock
             - getblockchaininfo
@@ -263,6 +264,7 @@ users:
           - getaddressesbylabel
           - getaddressinfo
           - getbalance
+          - getbalances
           - getbestblockhash
           - getblock
           - getblockchaininfo
