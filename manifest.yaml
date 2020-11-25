@@ -5,7 +5,7 @@ title: Bitcoin Proxy
 description:
   short: "Super charge your Bitcoin node."
   long: "Bitcoin Proxy enables you to specify several users and, for each user, the list of RPC calls they are allowed to make against your Bitcoin node. It also acts as a super charger for your pruned node. If a user or application requires a block not retained by your node, Bitcoin Proxy will dynamically fetch the block over the P2P network, then verify its hash to ensure validity. Your pruned node will now act like a full archival node!"
-release-notes: https://github.com/Kixunil/btc-rpc-proxy/releases/tag/v0.2.2
+release-notes: Fixes multi-wallet support
 ports:
   - internal: 8332
     tor: 8332

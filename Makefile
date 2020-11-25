@@ -24,4 +24,3 @@ configurator/target/armv7-unknown-linux-musleabihf/btc-rpc-proxy: $(BTC_RPC_PROX
 
 manifest.yaml: btc-rpc-proxy/Cargo.toml
 	yq w -i manifest.yaml version $(VERSION)
-	yq w -i manifest.yaml release-notes https://github.com/Kixunil/btc-rpc-proxy/releases/tag/v$(VERSION)
