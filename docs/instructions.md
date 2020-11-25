@@ -10,4 +10,4 @@ You must create at least one user to your Bitcoin Proxy config. Each user you cr
 
 ## Using a Wallet
 
-Enter your user's QuickConnect QR code (located in `properties`) **OR** your raw user credentials (located in `Config`) into any wallet that supports connecting to a remote node over Tor. For a full list of compatible wallets, see <a href="https://github.com/Start9Labs/btc-rpx-proxy-wrapper/blob/master/docs/wallets.md" target="_blank">https://github.com/Start9Labs/btc-rpx-proxy-wrapper/blob/master/docs/wallets.md</a>.
+Enter your user's QuickConnect QR code (located in `properties`) **OR** your raw user credentials (located in `Config`) into any wallet that supports connecting to a remote node over Tor. For a full list of compatible wallets, see <a href="https://github.com/Start9Labs/btc-rpc-proxy-wrapper/blob/master/docs/wallets.md" target="_blank">https://github.com/Start9Labs/btc-rpc-proxy-wrapper/blob/master/docs/wallets.md</a>.
