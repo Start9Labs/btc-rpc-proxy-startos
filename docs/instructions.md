@@ -6,7 +6,7 @@ Bitcoin Proxy requires a Bitcoin node to function. By default, Bitcoin Proxy wil
 
 ## Config
 
-You must create at least one user to your Bitcoin Proxy config. Each user you create will receive their own RPC useranme and password, which can be used for remote access.
+You must create at least one user to your Bitcoin Proxy config. Each user you create will receive their own RPC username and password, which can be used for remote access.
 
 ## Using a Wallet
 
