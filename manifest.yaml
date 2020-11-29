@@ -1,6 +1,6 @@
 compat: v0
 id: btc-rpc-proxy
-version: 0.2.2
+version: 0.2.3
 title: Bitcoin Proxy
 description:
   short: "Super charge your Bitcoin node."

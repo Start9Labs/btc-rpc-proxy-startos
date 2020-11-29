@@ -397,3 +397,11 @@ advanced:
       units: Seconds
       range: "[0, *)"
       default: 300
+    max-peer-concurrency:
+      type: number
+      name: Maximum Peer Concurrency
+      description: How many peers to reach out to concurrently for block data
+      nullable: false
+      integral: true
+      range: "[0, *)"
+      default: 1

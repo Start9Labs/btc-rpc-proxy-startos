@@ -1,15 +1,17 @@
+use std::collections::HashSet;
 use std::net::IpAddr;
+use std::sync::Arc;
 use std::time::Duration;
 
 use anyhow::Error;
 use btc_rpc_proxy::{
-    util::deserialize_parse, AuthSource, Env, PeerList, RpcClient, TorEnv, User, Users,
+    util::deserialize_parse, AuthSource, Peers, RpcClient, State, TorState, User, Users,
 };
 use http::uri;
 use hyper::Uri;
 use linear_map::LinearMap;
 use slog::Drain;
-use tokio::sync::Mutex;
+use tokio::sync::RwLock;
 
 #[derive(serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -23,8 +25,9 @@ struct Config {
 #[serde(rename_all = "kebab-case")]
 struct UserInfo {
     pub name: String,
-    #[serde(flatten)]
-    pub info: User,
+    pub password: String,
+    pub allowed_calls: HashSet<String>,
+    pub fetch_blocks: bool,
 }
 
 #[derive(serde::Deserialize)]
@@ -33,6 +36,7 @@ struct AdvancedConfig {
     pub tor_only: bool,
     pub peer_timeout: u64,
     pub max_peer_age: u64,
+    pub max_peer_concurrency: Option<usize>,
 }
 
 #[derive(serde::Deserialize)]
@@ -109,7 +113,7 @@ async fn main() -> Result<(), Error> {
                                     Property::String {
                                         value: format!(
                                             "btcstandup://{}:{}@{}:8332/",
-                                            user.name, user.info.password, tor_addr
+                                            user.name, user.password, tor_addr
                                         ),
                                         description: Some(format!(
                                             "Quick Connect URL for {}",
@@ -135,7 +139,7 @@ async fn main() -> Result<(), Error> {
     let drain = slog_async::Async::new(drain).build().fuse();
     let logger = slog::Logger::root(drain, slog::o!());
     btc_rpc_proxy::main(
-        Env {
+        State {
             bind: ([0, 0, 0, 0], 8332).into(),
             rpc_client: match cfg.bitcoind {
                 BitcoinCoreConfig::Internal {
@@ -188,20 +192,30 @@ async fn main() -> Result<(), Error> {
                     )?
                 }
             },
-            tor: Some(TorEnv {
+            tor: Some(TorState {
                 proxy: format!("{}:9050", std::env::var("HOST_IP")?).parse()?,
                 only: cfg.advanced.tor_only,
             }),
             users: Users(
                 cfg.users
                     .into_iter()
-                    .map(|user| (user.name, user.info))
+                    .map(|user| {
+                        (
+                            user.name,
+                            User {
+                                password: user.password,
+                                allowed_calls: user.allowed_calls,
+                                fetch_blocks: user.fetch_blocks,
+                            },
+                        )
+                    })
                     .collect(),
             ),
             logger,
             peer_timeout: Duration::from_secs(cfg.advanced.peer_timeout),
-            peers: Mutex::new(PeerList::new()),
+            peers: RwLock::new(Arc::new(Peers::new())),
             max_peer_age: Duration::from_secs(cfg.advanced.max_peer_age),
+            max_peer_concurrency: cfg.advanced.max_peer_concurrency,
         }
         .arc(),
     )
