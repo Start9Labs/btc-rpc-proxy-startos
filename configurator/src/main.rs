@@ -147,21 +147,15 @@ async fn main() -> Result<(), Error> {
                     user,
                     password,
                 } => RpcClient::new(
-                    AuthSource::Const {
-                        username: user,
-                        password,
-                    },
+                    AuthSource::from_config(Some(user), Some(password), None)?,
                     format!("http://{}:8332/", address).parse()?,
-                )?,
+                ),
                 BitcoinCoreConfig::External {
                     addressext,
                     userext,
                     passwordext,
                 } => RpcClient::new(
-                    AuthSource::Const {
-                        username: userext,
-                        password: passwordext,
-                    },
+                    AuthSource::from_config(Some(userext), Some(passwordext), None)?,
                     Uri::from_parts({
                         let mut addr = addressext.into_parts();
                         addr.scheme = Some(uri::Scheme::HTTP);
@@ -173,7 +167,7 @@ async fn main() -> Result<(), Error> {
                         }
                         addr
                     })?,
-                )?,
+                ),
                 BitcoinCoreConfig::QuickConnect { quick_connect_url } => {
                     let auth = quick_connect_url
                         .authority()
@@ -189,7 +183,7 @@ async fn main() -> Result<(), Error> {
                             auth.port_u16().unwrap_or(8332)
                         )
                         .parse()?,
-                    )?
+                    )
                 }
             },
             tor: Some(TorState {
