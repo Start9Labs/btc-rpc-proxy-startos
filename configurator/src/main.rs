@@ -73,6 +73,7 @@ pub struct Properties {
 pub struct Data {
     #[serde(rename = "Quick Connect URLs")]
     quick_connect_urls: Property,
+    rpc_users: Property
 }
 
 #[derive(serde::Serialize)]
@@ -128,6 +129,31 @@ async fn main() -> Result<(), Error> {
                             .collect(),
                         description: Some("Quick Connect URLs for each user".to_owned()),
                     },
+                    rpc_users: Property::Object {
+                        value: cfg.users.iter().map(|user| {(
+                            Property::Object {
+                                value: format!("{}", user.name)
+                                description: Some(format!(
+                                    "RPC username for {}",
+                                    user.name
+                                )),
+                                copyable: true,
+                                qr: false,
+                                masked: true,
+                            },
+                            Property::Object {
+                                value: format!("{}", user.password)
+                                description: Some(format!(
+                                    "RPC password for {}",
+                                    user.password
+                                )),
+                                copyable: true,
+                                qr: false,
+                                masked: true,
+                            }
+                        )}).collect(),
+                        description: Some("RPC Credentials for each user".to_owned()),
+                    }
                 },
             },
         )?;
