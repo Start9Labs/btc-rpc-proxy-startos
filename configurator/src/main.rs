@@ -73,7 +73,7 @@ pub struct Properties {
 pub struct Data {
     #[serde(rename = "Quick Connect URLs")]
     quick_connect_urls: Property,
-    rpc_users: Property
+    rpc_users: Property,
 }
 
 #[derive(serde::Serialize)]
@@ -130,30 +130,51 @@ async fn main() -> Result<(), Error> {
                         description: Some("Quick Connect URLs for each user".to_owned()),
                     },
                     rpc_users: Property::Object {
-                        value: cfg.users.iter().map(|user| {(
-                            Property::Object {
-                                value: format!("{}", user.name)
-                                description: Some(format!(
-                                    "RPC username for {}",
-                                    user.name
-                                )),
-                                copyable: true,
-                                qr: false,
-                                masked: true,
-                            },
-                            Property::Object {
-                                value: format!("{}", user.password)
-                                description: Some(format!(
-                                    "RPC password for {}",
-                                    user.password
-                                )),
-                                copyable: true,
-                                qr: false,
-                                masked: true,
-                            }
-                        )}).collect(),
+                        value: cfg
+                            .users
+                            .iter()
+                            .map(|user| {
+                                (
+                                    user.name.to_owned(),
+                                    Property::Object {
+                                        value: std::iter::empty()
+                                            .chain(std::iter::once((
+                                                "Username".to_owned(),
+                                                Property::String {
+                                                    value: format!("{}", user.name),
+                                                    description: Some(format!(
+                                                        "RPC username for {}",
+                                                        user.name
+                                                    )),
+                                                    copyable: true,
+                                                    qr: false,
+                                                    masked: true,
+                                                },
+                                            )))
+                                            .chain(std::iter::once((
+                                                "Password".to_owned(),
+                                                Property::String {
+                                                    value: format!("{}", user.password),
+                                                    description: Some(format!(
+                                                        "RPC password for {}",
+                                                        user.password
+                                                    )),
+                                                    copyable: true,
+                                                    qr: false,
+                                                    masked: true,
+                                                },
+                                            )))
+                                            .collect(),
+                                        description: Some(format!(
+                                            "RPC Credentials for {}",
+                                            user.name
+                                        )),
+                                    },
+                                )
+                            })
+                            .collect(),
                         description: Some("RPC Credentials for each user".to_owned()),
-                    }
+                    },
                 },
             },
         )?;
