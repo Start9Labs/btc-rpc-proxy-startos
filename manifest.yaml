@@ -1,6 +1,6 @@
 compat: v0
 id: btc-rpc-proxy
-version: 0.2.3
+version: 0.2.4
 title: Bitcoin Proxy
 description:
   short: "Super charge your Bitcoin node."
@@ -21,7 +21,7 @@ assets: []
 hidden-service-version: v3
 dependencies:
   bitcoind:
-    version: "^0.20.0"
+    version: "^0.21.0"
     optional: Can alternatively configure an external bitcoin node.
     description: Bitcoin Proxy sends RPC requests to a bitcoin node, like the Bitcoin Core service.
     config:

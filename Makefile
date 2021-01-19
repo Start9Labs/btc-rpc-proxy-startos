@@ -1,4 +1,4 @@
-ASSETS := $(shell yq r manifest.yaml assets.*.src)
+ASSETS := $(shell yq e '.assets.[].src' manifest.yaml)
 ASSET_PATHS := $(addprefix assets/,$(ASSETS))
 VERSION := $(shell toml get btc-rpc-proxy/Cargo.toml package.version)
 BTC_RPC_PROXY_SRC := $(shell find ./btc-rpc-proxy/src -name '*.rs') btc-rpc-proxy/Cargo.toml btc-rpc-proxy/Cargo.lock
@@ -23,4 +23,4 @@ configurator/target/armv7-unknown-linux-musleabihf/btc-rpc-proxy: $(BTC_RPC_PROX
 	docker run --rm -it -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:armv7-musleabihf musl-strip configurator/target/armv7-unknown-linux-musleabihf/release/btc-rpc-proxy
 
 manifest.yaml: btc-rpc-proxy/Cargo.toml
-	yq w -i manifest.yaml version $(VERSION)
+	yq eval -i '.version = $(VERSION)' manifest.yaml

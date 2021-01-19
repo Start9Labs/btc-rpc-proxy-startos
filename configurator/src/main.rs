@@ -149,6 +149,7 @@ async fn main() -> Result<(), Error> {
                 } => RpcClient::new(
                     AuthSource::from_config(Some(user), Some(password), None)?,
                     format!("http://{}:8332/", address).parse()?,
+                    &logger,
                 ),
                 BitcoinCoreConfig::External {
                     addressext,
@@ -167,6 +168,7 @@ async fn main() -> Result<(), Error> {
                         }
                         addr
                     })?,
+                    &logger,
                 ),
                 BitcoinCoreConfig::QuickConnect { quick_connect_url } => {
                     let auth = quick_connect_url
@@ -183,6 +185,7 @@ async fn main() -> Result<(), Error> {
                             auth.port_u16().unwrap_or(8332)
                         )
                         .parse()?,
+                        &logger,
                     )
                 }
             },
