@@ -73,6 +73,7 @@ pub struct Properties {
 pub struct Data {
     #[serde(rename = "Quick Connect URLs")]
     quick_connect_urls: Property,
+    #[serde(rename = "RPC Users")]
     rpc_users: Property,
 }
 
