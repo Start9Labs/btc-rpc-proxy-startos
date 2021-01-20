@@ -143,10 +143,7 @@ async fn main() -> Result<(), Error> {
                                                 "Username".to_owned(),
                                                 Property::String {
                                                     value: format!("{}", user.name),
-                                                    description: Some(format!(
-                                                        "RPC username for {}",
-                                                        user.name
-                                                    )),
+                                                    description: None,
                                                     copyable: true,
                                                     qr: false,
                                                     masked: false,
@@ -156,10 +153,7 @@ async fn main() -> Result<(), Error> {
                                                 "Password".to_owned(),
                                                 Property::String {
                                                     value: format!("{}", user.password),
-                                                    description: Some(format!(
-                                                        "RPC password for {}",
-                                                        user.password
-                                                    )),
+                                                    description: None,
                                                     copyable: true,
                                                     qr: false,
                                                     masked: true,
