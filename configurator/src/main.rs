@@ -149,7 +149,7 @@ async fn main() -> Result<(), Error> {
                                                     )),
                                                     copyable: true,
                                                     qr: false,
-                                                    masked: true,
+                                                    masked: false,
                                                 },
                                             )))
                                             .chain(std::iter::once((
