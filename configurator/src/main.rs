@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use std::convert::TryInto;
 use std::net::IpAddr;
 use std::sync::Arc;
 use std::time::Duration;
@@ -182,7 +183,6 @@ async fn main() -> Result<(), Error> {
     let logger = slog::Logger::root(drain, slog::o!());
     btc_rpc_proxy::main(
         State {
-            bind: ([0, 0, 0, 0], 8332).into(),
             rpc_client: match cfg.bitcoind {
                 BitcoinCoreConfig::Internal {
                     address,
@@ -242,7 +242,7 @@ async fn main() -> Result<(), Error> {
                         (
                             user.name,
                             User {
-                                password: user.password,
+                                password: user.password.try_into().unwrap(),
                                 allowed_calls: user.allowed_calls,
                                 fetch_blocks: user.fetch_blocks,
                             },
@@ -257,6 +257,7 @@ async fn main() -> Result<(), Error> {
             max_peer_concurrency: cfg.advanced.max_peer_concurrency,
         }
         .arc(),
+        ([0, 0, 0, 0], 8332).into(),
     )
     .await
 }
