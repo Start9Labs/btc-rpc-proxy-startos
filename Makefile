@@ -19,8 +19,8 @@ image.tar: Dockerfile docker_entrypoint.sh configurator/target/armv7-unknown-lin
 	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/btc-rpc-proxy --platform=linux/arm/v7 -o type=docker,dest=image.tar .
 
 configurator/target/armv7-unknown-linux-musleabihf/btc-rpc-proxy: $(BTC_RPC_PROXY_SRC) $(CONFIGURATOR_SRC)
-	docker run --rm -it -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:armv7-musleabihf sh -c "cd configurator && cargo +beta build --release"
-	docker run --rm -it -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:armv7-musleabihf musl-strip configurator/target/armv7-unknown-linux-musleabihf/release/btc-rpc-proxy
+	docker run --rm -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:armv7-musleabihf sh -c "cd configurator && cargo +beta build --release"
+	docker run --rm -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:armv7-musleabihf musl-strip configurator/target/armv7-unknown-linux-musleabihf/release/btc-rpc-proxy
 
 manifest.yaml: btc-rpc-proxy/Cargo.toml
 	yq eval -i '.version = $(VERSION)' manifest.yaml
