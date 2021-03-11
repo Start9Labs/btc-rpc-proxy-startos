@@ -52,12 +52,20 @@ enum BitcoinCoreConfig {
     },
     #[serde(rename_all = "kebab-case")]
     External {
+        connection_settings: ExternalBitcoinCoreConfig,
+    },
+}
+
+#[derive(serde::Deserialize)]
+#[serde(tag = "type")]
+#[serde(rename_all = "kebab-case")]
+enum ExternalBitcoinCoreConfig {
+    Manual {
         #[serde(deserialize_with = "deserialize_parse")]
         addressext: Uri,
         userext: String,
         passwordext: String,
     },
-    #[serde(rename_all = "kebab-case")]
     QuickConnect {
         #[serde(deserialize_with = "deserialize_parse")]
         quick_connect_url: Uri,
@@ -194,9 +202,12 @@ async fn main() -> Result<(), Error> {
                     &logger,
                 ),
                 BitcoinCoreConfig::External {
-                    addressext,
-                    userext,
-                    passwordext,
+                    connection_settings:
+                        ExternalBitcoinCoreConfig::Manual {
+                            addressext,
+                            userext,
+                            passwordext,
+                        },
                 } => RpcClient::new(
                     AuthSource::from_config(Some(userext), Some(passwordext), None)?,
                     Uri::from_parts({
@@ -212,7 +223,10 @@ async fn main() -> Result<(), Error> {
                     })?,
                     &logger,
                 ),
-                BitcoinCoreConfig::QuickConnect { quick_connect_url } => {
+                BitcoinCoreConfig::External {
+                    connection_settings:
+                        ExternalBitcoinCoreConfig::QuickConnect { quick_connect_url },
+                } => {
                     let auth = quick_connect_url
                         .authority()
                         .ok_or_else(|| anyhow::anyhow!("invalid Quick Connect URL"))?;
