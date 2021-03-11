@@ -60,12 +60,14 @@ enum BitcoinCoreConfig {
 #[serde(tag = "type")]
 #[serde(rename_all = "kebab-case")]
 enum ExternalBitcoinCoreConfig {
+    #[serde(rename_all = "kebab-case")]
     Manual {
         #[serde(deserialize_with = "deserialize_parse")]
         addressext: Uri,
         userext: String,
         passwordext: String,
     },
+    #[serde(rename_all = "kebab-case")]
     QuickConnect {
         #[serde(deserialize_with = "deserialize_parse")]
         quick_connect_url: Uri,
