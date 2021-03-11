@@ -12,7 +12,6 @@ bitcoind:
     variantNames:
       internal: Internal
       external: External
-      quick-connect: Quick Connect
   default: internal
   variants:
     internal:
