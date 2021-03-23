@@ -141,8 +141,9 @@ users:
             - estimatesmartfee
             - finalizepsbt
             - fundrawtransaction
-            - generate
+            - generateblock
             - generatetoaddress
+            - generatetodescriptor
             - getaddednodeinfo
             - getaddressesbylabel
             - getaddressinfo
@@ -151,17 +152,19 @@ users:
             - getbestblockhash
             - getblock
             - getblockchaininfo
-            - getblocktemplate
-            - getinfo
             - getblockcount
+            - getblockfilter
             - getblockhash
             - getblockheader
             - getblockstats
+            - getblocktemplate
             - getchaintips
             - getchaintxstats
             - getconnectioncount
             - getdescriptorinfo
             - getdifficulty
+            - getindexinfo
+            - getinfo
             - getmemoryinfo
             - getmempoolancestors
             - getmempooldescendants
@@ -186,8 +189,10 @@ users:
             - gettxoutsetinfo
             - getunconfirmedbalance
             - getwalletinfo
+            - getzmqnotifications
             - help
             - importaddress
+            - importdescriptors
             - importmulti
             - importprivkey
             - importprunedfunds
@@ -213,27 +218,31 @@ users:
             - preciousblock
             - prioritisetransaction
             - pruneblockchain
+            - psbtbumpfee
             - removeprunedfunds
             - rescanblockchain
             - savemempool
             - scantxoutset
+            - send
             - sendmany
             - sendrawtransaction
             - sendtoaddress
             - setban
             - sethdseed
             - setlabel
-            - settxfee
-            - signmessage
-            - signrawtransactionwithwallet
             - setnetworkactive
-            - signmessagewithprivkey
+            - settxfee
+            - setwalletflag
+            - signmessage
             - signrawtransactionwithkey
+            - signrawtransactionwithwallet
+            - signmessagewithprivkey
             - stop
             - submitblock
             - submitheader
             - testmempoolaccept
             - unloadwallet
+            - upgradewallet
             - uptime
             - utxoupdatepsbt
             - validateaddress
@@ -266,15 +275,15 @@ users:
           - decodescript
           - deriveaddresses
           - disconnectnode
-          - dumpprivkey
           - dumpwallet
           - echo
           - encryptwallet
           - estimatesmartfee
           - finalizepsbt
           - fundrawtransaction
-          - generate
+          - generateblock
           - generatetoaddress
+          - generatetodescriptor
           - getaddednodeinfo
           - getaddressesbylabel
           - getaddressinfo
@@ -283,17 +292,19 @@ users:
           - getbestblockhash
           - getblock
           - getblockchaininfo
-          - getblocktemplate
-          - getinfo
           - getblockcount
+          - getblockfilter
           - getblockhash
           - getblockheader
           - getblockstats
+          - getblocktemplate
           - getchaintips
           - getchaintxstats
           - getconnectioncount
           - getdescriptorinfo
           - getdifficulty
+          - getindexinfo
+          - getinfo
           - getmemoryinfo
           - getmempoolancestors
           - getmempooldescendants
@@ -318,8 +329,10 @@ users:
           - gettxoutsetinfo
           - getunconfirmedbalance
           - getwalletinfo
+          - getzmqnotifications
           - help
           - importaddress
+          - importdescriptors
           - importmulti
           - importprivkey
           - importprunedfunds
@@ -345,27 +358,30 @@ users:
           - preciousblock
           - prioritisetransaction
           - pruneblockchain
+          - psbtbumpfee
           - removeprunedfunds
           - rescanblockchain
           - savemempool
           - scantxoutset
+          - send
           - sendmany
           - sendrawtransaction
           - sendtoaddress
           - setban
           - sethdseed
           - setlabel
-          - settxfee
-          - signmessage
-          - signrawtransactionwithwallet
           - setnetworkactive
-          - signmessagewithprivkey
+          - settxfee
+          - setwalletflag
+          - signmessage
           - signrawtransactionwithkey
-          - stop
+          - signrawtransactionwithwallet
+          - signmessagewithprivkey
           - submitblock
           - submitheader
           - testmempoolaccept
           - unloadwallet
+          - upgradewallet
           - uptime
           - utxoupdatepsbt
           - validateaddress
