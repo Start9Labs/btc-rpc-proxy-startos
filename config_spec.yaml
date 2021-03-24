@@ -141,6 +141,7 @@ users:
             - estimatesmartfee
             - finalizepsbt
             - fundrawtransaction
+            - generate
             - generateblock
             - generatetoaddress
             - generatetodescriptor
@@ -281,6 +282,7 @@ users:
           - estimatesmartfee
           - finalizepsbt
           - fundrawtransaction
+          - generate
           - generateblock
           - generatetoaddress
           - generatetodescriptor
