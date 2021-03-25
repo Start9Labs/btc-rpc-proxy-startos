@@ -32,3 +32,5 @@ dependencies:
           - SET:
               var: "rpc.enable"
               to-value: true
+install-alert: |
+  After installing, you will need to manually enable the new RPC requests if you intend to use them. We strongly recommend enabling ALL requests for your primary user.
