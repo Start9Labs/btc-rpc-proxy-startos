@@ -1,0 +1,6 @@
+- rule: "rpc.enable?"
+  description: "Must have an RPC enabled"
+  suggestions:
+    - SET:
+        var: "rpc.enable"
+        to-value: true
