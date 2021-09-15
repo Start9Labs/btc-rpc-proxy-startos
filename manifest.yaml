@@ -28,12 +28,12 @@ main:
     bitcoind: /mnt/bitcoind
   io-format: yaml
 health-checks:
-  synced: 
+  main: 
     type: docker
     image: main
     system: false
     entrypoint: sh
-    args: ["-c", "echo 'TODO'"]
+    args: ["-c", "curl http://localhost:8332 || exit 1"]
     mounts:
       main: /root
     io-format: yaml
