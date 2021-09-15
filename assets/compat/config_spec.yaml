@@ -24,12 +24,12 @@ bitcoind:
   variants:
     internal:
       address:
-        type: pointer
+        type: string
         name: Local Address
-        description: The LAN IP address of your Bitcoin Core service
-        subtype: package
-        package-id: bitcoind
-        target: lan-address
+        description: The internal IP address of your Bitcoin Core service
+        nullable: false
+        copyable: true
+        default: bitcoind.embassy
       user:
         type: pointer
         name: RPC Username
@@ -38,6 +38,7 @@ bitcoind:
         package-id: bitcoind
         target: config
         index: "rpc.username"
+        interface: rpc
       password:
         type: pointer
         name: RPC Password
@@ -46,6 +47,7 @@ bitcoind:
         package-id: bitcoind
         target: config
         index: "rpc.password"
+        interface: rpc
     external:
       connection-settings:
         type: union
