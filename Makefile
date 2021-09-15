@@ -12,11 +12,11 @@ all: verify
 verify: btc-rpc-proxy.s9pk $(S9PK_PATH)
 	embassy-sdk verify $(S9PK_PATH)
 
-btc-rpc-proxy.s9pk: manifest.yaml config_spec.yaml config_rules.yaml image.tar instructions.md $(ASSET_PATHS)
+btc-rpc-proxy.s9pk: manifest.yaml assets/compat/config_spec.yaml assets/compat/config_rules.yaml image.tar instructions.md $(ASSET_PATHS)
 	embassy-sdk pack
 
 image.tar: Dockerfile docker_entrypoint.sh configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy
-	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/btc-rpc-proxy --platform=linux/arm64 -o type=docker,dest=image.tar .
+	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/btc-rpc-proxy/main:${VERSION} --platform=linux/arm64/v8 -o type=docker,dest=image.tar .
 
 configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy: $(BTC_RPC_PROXY_SRC) $(CONFIGURATOR_SRC)
 	docker run --rm -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:aarch64-musl sh -c "cd configurator && cargo +beta build --release"

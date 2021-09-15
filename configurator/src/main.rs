@@ -17,6 +17,7 @@ use tokio::sync::RwLock;
 #[derive(serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
 struct Config {
+    pub tor_address: String,
     pub bitcoind: BitcoinCoreConfig,
     pub users: Vec<UserInfo>,
     pub advanced: AdvancedConfig,
@@ -110,7 +111,7 @@ async fn main() -> Result<(), Error> {
     let cfg: Config = tokio::task::spawn_blocking(move || -> Result<_, Error> {
         let cfg: Config =
             serde_yaml::from_reader(std::fs::File::open("/root/start9/config.yaml")?)?;
-        let tor_addr = std::env::var("TOR_ADDRESS")?;
+        let tor_addr = &cfg.tor_address;
         serde_yaml::to_writer(
             std::fs::File::create("/root/start9/stats.yaml")?,
             &Properties {
