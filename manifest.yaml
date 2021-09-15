@@ -1,6 +1,6 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
-version: 0.3.2.1
+version: 0.3.1
 release-notes: "Upgrade to EmbassyOS v0.3.0"
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
@@ -11,13 +11,12 @@ min-os-version: "0.3.0"
 description:
   short: Super charge your Bitcoin node
   long: |
-   Bitcoin Proxy enables you to specify several users and, for each user, the list of RPC calls they are allowed to make against your Bitcoin node. It also acts as a super charger for your pruned node. If a user or application requires a block not retained by your node, Bitcoin Proxy w`ill dynamically fetch the block over the P2P network, then verify its hash to ensure validity. Your pruned node will now act like a full archival node!
+    Bitcoin Proxy enables you to specify several users and, for each user, the list of RPC calls they are allowed to make against your Bitcoin node. It also acts as a super charger for your pruned node. If a user or application requires a block not retained by your node, Bitcoin Proxy w`ill dynamically fetch the block over the P2P network, then verify its hash to ensure validity. Your pruned node will now act like a full archival node!
 assets:
   license: LICENSE
   icon: icon.png
   instructions: instructions.md
   docker-images: image.tar
-  icon-type: png
 main:
   type: docker
   image: main
@@ -28,7 +27,7 @@ main:
     bitcoind: /mnt/bitcoind
   io-format: yaml
 health-checks:
-  synced: 
+  synced:
     type: docker
     image: main
     system: false
@@ -44,7 +43,7 @@ config:
     image: compat
     system: true
     entrypoint: compat
-    args: 
+    args:
       - config
       - get
       - /root
@@ -76,7 +75,7 @@ dependencies:
     optional: Can alternatively configure an external bitcoin node.
     description: Bitcoin Proxy sends RPC requests to a bitcoin node, like the Bitcoin Core service.
     config:
-      check: 
+      check:
         type: docker
         image: compat
         system: true

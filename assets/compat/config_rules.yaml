@@ -1,0 +1,3 @@
+
+- rule: '''users.[all(user => user.fetch-blocks?)].allowed-calls.* = "getblock"'
+  description: All users with "Fetch Blocks" enabled must allow the "getblock" RPC command.
