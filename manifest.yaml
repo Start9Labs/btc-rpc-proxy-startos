@@ -78,6 +78,7 @@ properties:
     - /root
   mounts:
     main: /root
+    compat: /mnt/assets
   io-format: yaml
 dependencies:
   bitcoind:
