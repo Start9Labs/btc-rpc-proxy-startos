@@ -12,7 +12,7 @@ all: verify
 verify: btc-rpc-proxy.s9pk $(S9PK_PATH)
 	embassy-sdk verify $(S9PK_PATH)
 
-btc-rpc-proxy.s9pk: manifest.yaml image.tar instructions.md $(ASSET_PATHS)
+btc-rpc-proxy.s9pk: manifest.yaml image.tar instructions.md LICENSE icon.png $(ASSET_PATHS)
 	embassy-sdk pack
 
 image.tar: Dockerfile docker_entrypoint.sh configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy
