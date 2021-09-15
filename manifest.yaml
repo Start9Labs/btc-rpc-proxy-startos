@@ -68,6 +68,17 @@ config:
       compat: /mnt/assets
       main: /root
     io-format: yaml
+properties:
+  type: docker
+  image: compat
+  system: true
+  entrypoint: compat
+  args:
+    - properties
+    - /root
+  mounts:
+    main: /root
+  io-format: yaml
 dependencies:
   bitcoind:
     version: "^0.21.1.2"

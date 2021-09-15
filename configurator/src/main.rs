@@ -249,7 +249,7 @@ async fn main() -> Result<(), Error> {
                 }
             },
             tor: Some(TorState {
-                proxy: format!("{}:9050", std::env::var("HOST_IP")?).parse()?,
+                proxy: "embassy:9050".parse()?,
                 only: cfg.advanced.tor_only,
             }),
             users: Users(
