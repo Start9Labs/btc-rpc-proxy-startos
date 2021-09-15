@@ -2,7 +2,7 @@
 FROM alpine:latest
 
 RUN apk update
-RUN apk add tini
+RUN apk add tini curl
 
 ADD ./configurator/target/aarch64-unknown-linux-musl/release/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
