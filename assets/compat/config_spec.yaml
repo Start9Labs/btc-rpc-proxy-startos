@@ -37,8 +37,7 @@ bitcoind:
         subtype: package
         package-id: bitcoind
         target: config
-        index: "rpc.username"
-        interface: rpc
+        selector: "$.rpc.username"
       password:
         type: pointer
         name: RPC Password
@@ -46,8 +45,7 @@ bitcoind:
         subtype: package
         package-id: bitcoind
         target: config
-        index: "rpc.password"
-        interface: rpc
+        selector: "$.rpc.password"
     external:
       connection-settings:
         type: union
