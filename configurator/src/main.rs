@@ -47,7 +47,6 @@ struct AdvancedConfig {
 enum BitcoinCoreConfig {
     #[serde(rename_all = "kebab-case")]
     Internal {
-        address: IpAddr,
         user: String,
         password: String,
     },
@@ -196,12 +195,11 @@ async fn main() -> Result<(), Error> {
         State {
             rpc_client: match cfg.bitcoind {
                 BitcoinCoreConfig::Internal {
-                    address,
                     user,
                     password,
                 } => RpcClient::new(
                     AuthSource::from_config(Some(user), Some(password), None)?,
-                    format!("http://{}:8332/", address).parse()?,
+                    format!("http://bitcoind.embassy:8332").parse()?,
                     &logger,
                 ),
                 BitcoinCoreConfig::External {

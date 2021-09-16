@@ -23,13 +23,6 @@ bitcoind:
   default: internal
   variants:
     internal:
-      address:
-        type: string
-        name: Local Address
-        description: The internal IP address of your Bitcoin Core service
-        nullable: false
-        copyable: true
-        default: bitcoind.embassy
       user:
         type: pointer
         name: RPC Username
