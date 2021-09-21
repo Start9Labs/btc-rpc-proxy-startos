@@ -33,11 +33,11 @@ health-checks:
     image: main
     system: false
     entrypoint: sh
-    args: ["-c", "curl http://localhost:8332 || exit 1"]
+    args: ["-c", "curl http://btc-rpc-proxy.embassy:8332 || exit 1"]
     mounts:
       main: /root
     io-format: yaml
-    critical: true
+    critical: false
 config:
   get:
     type: docker
