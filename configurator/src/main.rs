@@ -1,8 +1,7 @@
-use std::collections::HashSet;
 use std::convert::TryInto;
-use std::net::IpAddr;
 use std::sync::Arc;
 use std::time::Duration;
+use std::{collections::HashSet, env::var};
 
 use anyhow::Error;
 use btc_rpc_proxy::{
@@ -46,10 +45,7 @@ struct AdvancedConfig {
 #[serde(rename_all = "kebab-case")]
 enum BitcoinCoreConfig {
     #[serde(rename_all = "kebab-case")]
-    Internal {
-        user: String,
-        password: String,
-    },
+    Internal { user: String, password: String },
     #[serde(rename_all = "kebab-case")]
     External {
         connection_settings: ExternalBitcoinCoreConfig,
@@ -194,10 +190,7 @@ async fn main() -> Result<(), Error> {
     btc_rpc_proxy::main(
         State {
             rpc_client: match cfg.bitcoind {
-                BitcoinCoreConfig::Internal {
-                    user,
-                    password,
-                } => RpcClient::new(
+                BitcoinCoreConfig::Internal { user, password } => RpcClient::new(
                     AuthSource::from_config(Some(user), Some(password), None)?,
                     format!("http://bitcoind.embassy:8332").parse()?,
                     &logger,
@@ -247,7 +240,7 @@ async fn main() -> Result<(), Error> {
                 }
             },
             tor: Some(TorState {
-                proxy: "embassy:9050".parse()?,
+                proxy: format!("{}:9050", var("HOST_IP")?).parse()?,
                 only: cfg.advanced.tor_only,
             }),
             users: Users(
