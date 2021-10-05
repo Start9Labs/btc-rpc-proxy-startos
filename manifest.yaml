@@ -112,6 +112,7 @@ dependencies:
           - dependency
           - "auto-configure"
           - "btc-rpc-proxy"
+          - bitcoind
           - /root
           - "/mnt/assets/bitcoind_config_rules.yaml"
 volumes:
