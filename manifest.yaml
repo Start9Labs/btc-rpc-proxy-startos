@@ -117,6 +117,9 @@ dependencies:
           - bitcoind
           - /root
           - "/mnt/assets/bitcoind_config_rules.yaml"
+        mounts:
+          compat: /mnt/assets
+          main: /root
 volumes:
   main:
     type: data
