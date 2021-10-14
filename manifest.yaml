@@ -99,6 +99,7 @@ dependencies:
           - dependency
           - check
           - "btc-rpc-proxy"
+          - bitcoind
           - /root
           - "/mnt/assets/bitcoind_config_rules.yaml"
         mounts:
