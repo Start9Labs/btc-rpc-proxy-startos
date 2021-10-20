@@ -33,7 +33,7 @@ health-checks:
     image: main
     system: false
     entrypoint: sh
-    args: ["-c", "curl http://localhost:8332 || exit 1"]
+    args: ["-c", "curl btc-rpc-proxy.embassy:8332 || exit 1"]
     mounts:
       main: /root
     io-format: yaml
