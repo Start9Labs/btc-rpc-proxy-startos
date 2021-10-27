@@ -94,7 +94,6 @@ dependencies:
         image: compat
         system: true
         entrypoint: compat
-        io-format: yaml
         args:
           - dependency
           - check
@@ -105,12 +104,12 @@ dependencies:
         mounts:
           compat: /mnt/assets
           main: /root
+        io-format: yaml
       auto-configure:
         type: docker
         image: compat
         system: true
         entrypoint: compat
-        io-format: yaml
         args:
           - dependency
           - "auto-configure"
@@ -121,6 +120,7 @@ dependencies:
         mounts:
           compat: /mnt/assets
           main: /root
+        io-format: yaml
 volumes:
   main:
     type: data
@@ -144,8 +144,8 @@ interfaces:
         8332: "8332"
     lan-config:
       8332:
-        ssl: false
-        mapping: 8332
+        ssl: true
+        mapping: 443
     ui: false
     protocols:
       - tcp
@@ -159,12 +159,12 @@ backup:
     args:
       - duplicity
       - create
-      - "btc-rpc-proxy"
       - /mnt/backup
       - /root
     mounts:
       BACKUP: /mnt/backup
       main: /root
+    io-format: yaml
   restore:
     type: docker
     image: compat
@@ -173,9 +173,9 @@ backup:
     args:
       - duplicity
       - restore
-      - "btc-rpc-proxy"
       - /mnt/backup
       - /root
     mounts:
       BACKUP: /mnt/backup
       main: /root
+    io-format: yaml
