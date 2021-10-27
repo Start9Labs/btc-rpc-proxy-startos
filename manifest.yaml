@@ -158,10 +158,10 @@ backup:
       - duplicity
       - create
       - /mnt/backup
-      - /root
+      - /root/data
     mounts:
       BACKUP: /mnt/backup
-      main: /root
+      main: /root/data
     io-format: yaml
   restore:
     type: docker
@@ -172,8 +172,8 @@ backup:
       - duplicity
       - restore
       - /mnt/backup
-      - /root
+      - /root/data
     mounts:
       BACKUP: /mnt/backup
-      main: /root
+      main: /root/data
     io-format: yaml
