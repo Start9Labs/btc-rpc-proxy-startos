@@ -31,13 +31,13 @@ health-checks:
   main: 
     type: docker
     image: main
-    system: false
     entrypoint: sh
     args: ["-c", "curl btc-rpc-proxy.embassy:8332 || exit 1"]
     mounts:
       main: /root
     io-format: yaml
     critical: true
+    inject: true
 config:
   get:
     type: docker
