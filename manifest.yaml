@@ -33,8 +33,6 @@ health-checks:
     image: main
     entrypoint: sh
     args: ["-c", "curl btc-rpc-proxy.embassy:8332 || exit 1"]
-    mounts:
-      main: /root
     io-format: yaml
     critical: true
     inject: true
