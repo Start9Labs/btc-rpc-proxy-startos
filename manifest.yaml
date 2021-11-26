@@ -28,13 +28,15 @@ main:
     bitcoind: /mnt/bitcoind
   io-format: yaml
 health-checks:
-  main: 
+  rpc:
+    name: RPC
+    description: Indicates when the RPC server is alive and listening for commands. Dependent services that need the RPC interface will not work until this health check passes.
     type: docker
     image: main
     entrypoint: sh
     args: ["-c", "curl btc-rpc-proxy.embassy:8332 || exit 1"]
     io-format: yaml
-    critical: true
+    severity: warning
     inject: true
 config:
   get:
