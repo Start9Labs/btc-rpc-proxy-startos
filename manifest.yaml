@@ -36,7 +36,6 @@ health-checks:
     entrypoint: sh
     args: ["-c", "curl btc-rpc-proxy.embassy:8332 || exit 1"]
     io-format: yaml
-    severity: warning
     inject: true
 config:
   get:
