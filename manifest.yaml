@@ -25,7 +25,6 @@ main:
   args: []
   mounts:
     main: /root
-    bitcoind: /mnt/bitcoind
   io-format: yaml
 health-checks:
   rpc:
@@ -125,12 +124,6 @@ volumes:
     type: data
   compat:
     type: assets
-  bitcoind:
-    type: pointer
-    package-id: bitcoind
-    volume-id: main
-    path: /root/.bitcoin
-    readonly: true
 alerts:
   install: |
     After installing, you will need to manually enable the new RPC requests if you intend to use them. We strongly recommend enabling ALL requests for your primary user.
