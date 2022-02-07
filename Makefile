@@ -15,7 +15,7 @@ verify: btc-rpc-proxy.s9pk $(S9PK_PATH)
 btc-rpc-proxy.s9pk: manifest.yaml image.tar instructions.md LICENSE icon.png $(ASSET_PATHS)
 	embassy-sdk pack
 
-image.tar: Dockerfile docker_entrypoint.sh configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy
+image.tar: Dockerfile docker_entrypoint.sh check-rpc.sh configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy
 	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/btc-rpc-proxy/main:${EMVER} --platform=linux/arm64/v8 -o type=docker,dest=image.tar .
 
 configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy: $(BTC_RPC_PROXY_SRC) $(CONFIGURATOR_SRC)
