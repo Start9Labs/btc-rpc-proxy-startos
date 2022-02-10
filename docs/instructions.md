@@ -14,4 +14,4 @@ This section includes a convenient list of copyable properties, such as the quic
 
 ## Using a Wallet
 
-Enter your user's QuickConnect QR code **OR** your raw user credentials (both located in `properties`) into any wallet that supports connecting to a remote node over Tor. For a full list of compatible wallets, see <a href="https://github.com/Start9Labs/btc-rpc-proxy-wrapper/blob/master/docs/wallets.md" target="_blank">https://github.com/Start9Labs/btc-rpc-proxy-wrapper/blob/master/docs/wallets.md</a>.
+Enter your user's QuickConnect QR code **OR** your raw user credentials (both located in `properties`) into any wallet that supports connecting to a remote node over Tor. For a full list of compatible wallets, see <a href="https://github.com/Start9Labs/btc-rpc-proxy-wrapper/blob/master/docs/wallets.md" target="_blank">https://github.com/Start9Labs/bitcoind-wrapper/blob/master/docs/wallets.md</a>.
