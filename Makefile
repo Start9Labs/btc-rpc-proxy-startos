@@ -20,7 +20,6 @@ image.tar: Dockerfile docker_entrypoint.sh check-rpc.sh configurator/target/aarc
 
 configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy: $(BTC_RPC_PROXY_SRC) $(CONFIGURATOR_SRC)
 	docker run --rm -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:aarch64-musl sh -c "cd configurator && cargo +beta build --release"
-	docker run --rm -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:aarch64-musl musl-strip configurator/target/aarch64-unknown-linux-musl/release/btc-rpc-proxy
 
 # manifest.yaml: btc-rpc-proxy/Cargo.toml
 # 	yq eval -i '.version = $(VERSION)' manifest.yaml
