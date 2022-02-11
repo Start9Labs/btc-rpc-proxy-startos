@@ -10,7 +10,7 @@ S9PK_PATH=$(shell find . -name btc-rpc-proxy.s9pk -print)
 all: verify
 
 verify: btc-rpc-proxy.s9pk $(S9PK_PATH)
-	embassy-sdk verify $(S9PK_PATH)
+	embassy-sdk verify s9pk $(S9PK_PATH)
 
 btc-rpc-proxy.s9pk: manifest.yaml image.tar instructions.md LICENSE icon.png $(ASSET_PATHS)
 	embassy-sdk pack
