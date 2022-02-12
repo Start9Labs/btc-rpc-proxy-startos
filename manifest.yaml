@@ -1,36 +1,173 @@
-compat: v0
 id: btc-rpc-proxy
-version: 0.3.2
 title: Bitcoin Proxy
+version: 0.3.2.1
+release-notes: "Upgrade to EmbassyOS v0.3.0"
+license: mit
+wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
+upstream-repo: "https://github.com/Kixunil/btc-rpc-proxy"
+support-site: "https://github.com/Kixunil/btc-rpc-proxy/issues"
+build: ["make"]
+min-os-version: "0.3.0"
 description:
-  short: "Super charge your Bitcoin node."
-  long: "Bitcoin Proxy enables you to specify several users and, for each user, the list of RPC calls they are allowed to make against your Bitcoin node. It also acts as a super charger for your pruned node. If a user or application requires a block not retained by your node, Bitcoin Proxy will dynamically fetch the block over the P2P network, then verify its hash to ensure validity. Your pruned node will now act like a full archival node!"
-release-notes: Extends RPC call access options to accommodate new RPC calls in Bitcoin Core 0.21.0
-ports:
-  - internal: 8332
-    tor: 8332
-    lan:
-      custom:
-        port: 8332
-image:
-  type: tar
-mount: /root
-has-instructions: true
-os-version-required: "^0.2.9"
-os-version-recommended: "^0.2.9"
-assets: []
-hidden-service-version: v3
+  short: Super charge your Bitcoin node
+  long: |
+    Bitcoin Proxy enables you to specify several users and, for each user, the list of RPC calls they are allowed to make against your Bitcoin node. It also acts as a super charger for your pruned node. If a user or application requires a block not retained by your node, Bitcoin Proxy will dynamically fetch the block over the P2P network, then verify its hash to ensure validity. Your pruned node will now act like a full archival node!
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: instructions.md
+  docker-images: image.tar
+  icon-type: png
+main:
+  type: docker
+  image: main
+  entrypoint: "docker_entrypoint.sh"
+  args: []
+  mounts:
+    main: /root
+  io-format: yaml
+health-checks:
+  rpc:
+    name: RPC
+    description: Indicates when the RPC server is alive and listening for commands. Dependent services that need the RPC interface will not work until this health check passes.
+    type: docker
+    image: main
+    entrypoint: check-rpc.sh
+    args: []
+    io-format: json
+    inject: true
+config:
+  get:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - get
+      - /root
+      - "/mnt/assets/config_spec.yaml"
+    mounts:
+      compat: /mnt/assets
+      main: /root
+    io-format: yaml
+  set:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - set
+      - "btc-rpc-proxy"
+      - /root
+      - "/mnt/assets/config_rules.yaml"
+    mounts:
+      compat: /mnt/assets
+      main: /root
+    io-format: yaml
+properties:
+  type: docker
+  image: compat
+  system: true
+  entrypoint: compat
+  args:
+    - properties
+    - /root
+  mounts:
+    main: /root
+    compat: /mnt/assets
+  io-format: yaml
 dependencies:
   bitcoind:
-    version: "^0.21.0"
-    optional: Can alternatively configure an external bitcoin node.
+    version: "^0.21.1.2"
+    requirement:
+      type: "opt-out"
+      how: Can alternatively configure an external bitcoin node.
+    critical: false
     description: Bitcoin Proxy sends RPC requests to a bitcoin node, like the Bitcoin Core service.
     config:
-      - rule: "rpc.enable?"
-        description: "Must have an RPC enabled"
-        suggestions:
-          - SET:
-              var: "rpc.enable"
-              to-value: true
-install-alert: |
-  After installing, you will need to manually enable the new RPC requests if you intend to use them. We strongly recommend enabling ALL requests for your primary user.
+      check:
+        type: docker
+        image: compat
+        system: true
+        entrypoint: compat
+        args:
+          - dependency
+          - check
+          - "btc-rpc-proxy"
+          - bitcoind
+          - /root
+          - "/mnt/assets/bitcoind_config_rules.yaml"
+        mounts:
+          compat: /mnt/assets
+          main: /root
+        io-format: yaml
+      auto-configure:
+        type: docker
+        image: compat
+        system: true
+        entrypoint: compat
+        args:
+          - dependency
+          - "auto-configure"
+          - "btc-rpc-proxy"
+          - bitcoind
+          - /root
+          - "/mnt/assets/bitcoind_config_rules.yaml"
+        mounts:
+          compat: /mnt/assets
+          main: /root
+        io-format: yaml
+volumes:
+  main:
+    type: data
+  compat:
+    type: assets
+alerts:
+  install: |
+    After installing, you will need to manually enable the new RPC requests if you intend to use them. We strongly recommend enabling ALL requests for your primary user.
+interfaces:
+  main:
+    name: Network interface
+    description: Specifies the interface to listen on for HTTP connections.
+    tor-config:
+      port-mapping:
+        8332: "8332"
+    lan-config:
+      443:
+        ssl: true
+        internal: 8332
+    ui: false
+    protocols:
+      - tcp
+      - http
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - create
+      - /mnt/backup
+      - /root/data
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root/data
+    io-format: yaml
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - restore
+      - /mnt/backup
+      - /root/data
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root/data
+    io-format: yaml

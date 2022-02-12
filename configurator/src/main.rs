@@ -1,8 +1,7 @@
-use std::collections::HashSet;
 use std::convert::TryInto;
-use std::net::IpAddr;
 use std::sync::Arc;
 use std::time::Duration;
+use std::{collections::HashSet, env::var};
 
 use anyhow::Error;
 use btc_rpc_proxy::{
@@ -17,6 +16,7 @@ use tokio::sync::RwLock;
 #[derive(serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
 struct Config {
+    pub tor_address: String,
     pub bitcoind: BitcoinCoreConfig,
     pub users: Vec<UserInfo>,
     pub advanced: AdvancedConfig,
@@ -45,11 +45,7 @@ struct AdvancedConfig {
 #[serde(rename_all = "kebab-case")]
 enum BitcoinCoreConfig {
     #[serde(rename_all = "kebab-case")]
-    Internal {
-        address: IpAddr,
-        user: String,
-        password: String,
-    },
+    Internal { user: String, password: String },
     #[serde(rename_all = "kebab-case")]
     External {
         connection_settings: ExternalBitcoinCoreConfig,
@@ -110,7 +106,7 @@ async fn main() -> Result<(), Error> {
     let cfg: Config = tokio::task::spawn_blocking(move || -> Result<_, Error> {
         let cfg: Config =
             serde_yaml::from_reader(std::fs::File::open("/root/start9/config.yaml")?)?;
-        let tor_addr = std::env::var("TOR_ADDRESS")?;
+        let tor_addr = &cfg.tor_address;
         serde_yaml::to_writer(
             std::fs::File::create("/root/start9/stats.yaml")?,
             &Properties {
@@ -194,13 +190,9 @@ async fn main() -> Result<(), Error> {
     btc_rpc_proxy::main(
         State {
             rpc_client: match cfg.bitcoind {
-                BitcoinCoreConfig::Internal {
-                    address,
-                    user,
-                    password,
-                } => RpcClient::new(
+                BitcoinCoreConfig::Internal { user, password } => RpcClient::new(
                     AuthSource::from_config(Some(user), Some(password), None)?,
-                    format!("http://{}:8332/", address).parse()?,
+                    format!("http://bitcoind.embassy:8332").parse()?,
                     &logger,
                 ),
                 BitcoinCoreConfig::External {
@@ -248,7 +240,7 @@ async fn main() -> Result<(), Error> {
                 }
             },
             tor: Some(TorState {
-                proxy: format!("{}:9050", std::env::var("HOST_IP")?).parse()?,
+                proxy: format!("{}:9050", var("HOST_IP")?).parse()?,
                 only: cfg.advanced.tor_only,
             }),
             users: Users(

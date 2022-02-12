@@ -1,3 +1,11 @@
+tor-address:
+  name: Tor Address
+  description: The Tor address for the main interface. 
+  type: pointer
+  subtype: package
+  package-id: btc-rpc-proxy
+  target: tor-address
+  interface: main
 bitcoind:
   type: union
   name: Bitcoin Core
@@ -9,35 +17,30 @@ bitcoind:
       - Internal: The Bitcoin Core service installed to your Embassy
       - External: A Bitcoin Core node running on a different device
       - Quick Connect: A Quick Connect URL for an unpruned Bitcoin Core node
-    variantNames:
+    variant-names:
       internal: Internal
       external: External
   default: internal
   variants:
     internal:
-      address:
-        type: pointer
-        name: Local Address
-        description: The LAN IP address of your Bitcoin Core service
-        subtype: app
-        app-id: bitcoind
-        target: lan-address
       user:
         type: pointer
         name: RPC Username
         description: The username for the RPC user for Bitcoin Core
-        subtype: app
-        app-id: bitcoind
+        subtype: package
+        package-id: bitcoind
         target: config
-        index: "rpc.username"
+        selector: "$.rpc.username"
+        multi: false
       password:
         type: pointer
         name: RPC Password
         description: The password for the RPC user for Bitcoin Core
-        subtype: app
-        app-id: bitcoind
+        subtype: package
+        package-id: bitcoind
         target: config
-        index: "rpc.password"
+        selector: "$.rpc.password"
+        multi: false
     external:
       connection-settings:
         type: union
@@ -49,7 +52,7 @@ bitcoind:
           description: |
             - Manual: Raw information for finding a Bitcoin Core node
             - Quick Connect: A Quick Connect URL for a Bitcoin Core node
-          variantNames:
+          variant-names:
             manual: Manual
             quick-connect: Quick Connect
         default: quick-connect
@@ -85,8 +88,8 @@ users:
   range: "[0,*)"
   subtype: object
   spec:
-    uniqueBy: name
-    displayAs: "{{name}}"
+    unique-by: name
+    display-as: "{{name}}"
     spec:
       name:
         type: string
