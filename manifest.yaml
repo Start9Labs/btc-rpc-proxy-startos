@@ -7,7 +7,6 @@ wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
 upstream-repo: "https://github.com/Kixunil/btc-rpc-proxy"
 support-site: "https://github.com/Kixunil/btc-rpc-proxy/issues"
 build: ["make"]
-min-os-version: "0.3.0"
 description:
   short: Super charge your Bitcoin node
   long: |
@@ -17,7 +16,6 @@ assets:
   icon: icon.png
   instructions: instructions.md
   docker-images: image.tar
-  icon-type: png
 main:
   type: docker
   image: main
@@ -29,7 +27,7 @@ main:
 health-checks:
   rpc:
     name: RPC
-    description: Indicates when the RPC server is alive and listening for commands. Dependent services that need the RPC interface will not work until this health check passes.
+    success-message: RPC server is alive and listening for commands
     type: docker
     image: main
     entrypoint: check-rpc.sh
@@ -84,7 +82,6 @@ dependencies:
     requirement:
       type: "opt-out"
       how: Can alternatively configure an external bitcoin node.
-    critical: false
     description: Bitcoin Proxy sends RPC requests to a bitcoin node, like the Bitcoin Core service.
     config:
       check:
