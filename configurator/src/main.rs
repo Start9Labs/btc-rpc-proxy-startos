@@ -10,7 +10,7 @@ use btc_rpc_proxy::{
 use http::uri;
 use hyper::Uri;
 use linear_map::LinearMap;
-use slog::Drain;
+use slog::{Drain, Level};
 use tokio::sync::RwLock;
 
 #[derive(serde::Deserialize)]
@@ -38,6 +38,7 @@ struct AdvancedConfig {
     pub peer_timeout: u64,
     pub max_peer_age: u64,
     pub max_peer_concurrency: Option<usize>,
+    pub log_level: String,
 }
 
 #[derive(serde::Deserialize)]
@@ -183,9 +184,21 @@ async fn main() -> Result<(), Error> {
         Ok(cfg)
     })
     .await??;
+    let log_level = match cfg.advanced.log_level.as_str() {
+        "CRITICAL" => Level::Critical,
+        "ERROR" => Level::Error,
+        "WARN" => Level::Warning,
+        "INFO" => Level::Info,
+        "DEBUG" => Level::Debug,
+        "TRACE" => Level::Trace,
+        _ => Level::Debug,
+    };
     let decorator = slog_term::TermDecorator::new().build();
     let drain = slog_term::FullFormat::new(decorator).build().fuse();
-    let drain = slog_async::Async::new(drain).build().fuse();
+    let drain = slog_async::Async::new(drain)
+        .build()
+        .filter_level(log_level)
+        .fuse();
     let logger = slog::Logger::root(drain, slog::o!());
     btc_rpc_proxy::main(
         State {
