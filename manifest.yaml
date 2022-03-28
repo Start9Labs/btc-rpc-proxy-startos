@@ -1,6 +1,6 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
-version: 0.3.2.1
+version: 0.3.2.2
 release-notes: "Upgrade to EmbassyOS v0.3.0"
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
@@ -78,7 +78,7 @@ properties:
   io-format: yaml
 dependencies:
   bitcoind:
-    version: "^0.21.1.2"
+    version: ">=0.21.1.2 <23.0"
     requirement:
       type: "opt-out"
       how: Can alternatively configure an external bitcoin node.
