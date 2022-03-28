@@ -441,3 +441,21 @@ advanced:
       integral: true
       range: "[1, *)"
       default: 1
+    log-level:
+      type: enum
+      name: Log Level
+      values:
+        - CRITICAL
+        - ERROR
+        - WARN
+        - INFO
+        - DEBUG
+        - TRACE
+      value-names:
+        CRITICAL: Critical
+        ERROR: Error
+        WARN: Warning
+        INFO: Info
+        DEBUG: Debug
+        TRACE: Trace
+      default: DEBUG
