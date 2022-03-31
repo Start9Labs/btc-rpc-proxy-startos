@@ -7,7 +7,6 @@ use anyhow::Error;
 use btc_rpc_proxy::{
     util::deserialize_parse, AuthSource, Peers, RpcClient, State, TorState, User, Users,
 };
-use http::uri;
 use hyper::Uri;
 use linear_map::LinearMap;
 use slog::{Drain, Level};
@@ -215,21 +214,20 @@ async fn main() -> Result<(), Error> {
                             userext,
                             passwordext,
                         },
-                } => RpcClient::new(
-                    AuthSource::from_config(Some(userext), Some(passwordext), None)?,
-                    Uri::from_parts({
-                        let mut addr = addressext.into_parts();
-                        addr.scheme = Some(uri::Scheme::HTTP);
-                        addr.path_and_query = None;
-                        if let Some(ref auth) = addr.authority {
-                            if auth.port().is_none() {
-                                addr.authority = Some(format!("{}:8332", auth).parse()?);
-                            }
-                        }
-                        addr
-                    })?,
-                    &logger,
-                ),
+                } => {
+                    RpcClient::new(
+                        AuthSource::from_config(Some(userext), Some(passwordext), None)?,
+                        {
+                            let addr = addressext.into_parts();
+                            let auth = addr
+                                .authority
+                                .ok_or_else(|| anyhow::anyhow!("invalid Manual Connection URL"))?;
+                            format!("http://{}:{}", auth.host(), auth.port_u16().unwrap_or(8332))
+                                .parse()?
+                        },
+                        &logger,
+                    )
+                }
                 BitcoinCoreConfig::External {
                     connection_settings:
                         ExternalBitcoinCoreConfig::QuickConnect { quick_connect_url },
