@@ -4,10 +4,7 @@ use std::time::Duration;
 use std::{collections::HashSet, env::var};
 
 use anyhow::Error;
-use btc_rpc_proxy::{
-    util::deserialize_parse, AuthSource, Peers, RpcClient, State, TorState, User, Users,
-};
-use hyper::Uri;
+use btc_rpc_proxy::{AuthSource, Peers, RpcClient, State, TorState, User, Users};
 use linear_map::LinearMap;
 use slog::{Drain, Level};
 use tokio::sync::RwLock;
@@ -43,31 +40,9 @@ struct AdvancedConfig {
 #[derive(serde::Deserialize)]
 #[serde(tag = "type")]
 #[serde(rename_all = "kebab-case")]
-enum BitcoinCoreConfig {
-    #[serde(rename_all = "kebab-case")]
-    Internal { user: String, password: String },
-    #[serde(rename_all = "kebab-case")]
-    External {
-        connection_settings: ExternalBitcoinCoreConfig,
-    },
-}
-
-#[derive(serde::Deserialize)]
-#[serde(tag = "type")]
-#[serde(rename_all = "kebab-case")]
-enum ExternalBitcoinCoreConfig {
-    #[serde(rename_all = "kebab-case")]
-    Manual {
-        #[serde(deserialize_with = "deserialize_parse")]
-        addressext: Uri,
-        userext: String,
-        passwordext: String,
-    },
-    #[serde(rename_all = "kebab-case")]
-    QuickConnect {
-        #[serde(deserialize_with = "deserialize_parse")]
-        quick_connect_url: Uri,
-    },
+struct BitcoinCoreConfig {
+    user: String,
+    password: String,
 }
 
 #[derive(serde::Serialize)]
@@ -201,55 +176,15 @@ async fn main() -> Result<(), Error> {
     let logger = slog::Logger::root(drain, slog::o!());
     btc_rpc_proxy::main(
         State {
-            rpc_client: match cfg.bitcoind {
-                BitcoinCoreConfig::Internal { user, password } => RpcClient::new(
-                    AuthSource::from_config(Some(user), Some(password), None)?,
-                    format!("http://bitcoind.embassy:8332").parse()?,
-                    &logger,
-                ),
-                BitcoinCoreConfig::External {
-                    connection_settings:
-                        ExternalBitcoinCoreConfig::Manual {
-                            addressext,
-                            userext,
-                            passwordext,
-                        },
-                } => {
-                    RpcClient::new(
-                        AuthSource::from_config(Some(userext), Some(passwordext), None)?,
-                        {
-                            let addr = addressext.into_parts();
-                            let auth = addr
-                                .authority
-                                .ok_or_else(|| anyhow::anyhow!("invalid Manual Connection URL"))?;
-                            format!("http://{}:{}", auth.host(), auth.port_u16().unwrap_or(8332))
-                                .parse()?
-                        },
-                        &logger,
-                    )
-                }
-                BitcoinCoreConfig::External {
-                    connection_settings:
-                        ExternalBitcoinCoreConfig::QuickConnect { quick_connect_url },
-                } => {
-                    let auth = quick_connect_url
-                        .authority()
-                        .ok_or_else(|| anyhow::anyhow!("invalid Quick Connect URL"))?;
-                    let mut auth_split = auth.as_str().split(|c| c == ':' || c == '@');
-                    let user = auth_split.next().map(|s| s.to_owned());
-                    let password = auth_split.next().map(|s| s.to_owned());
-                    RpcClient::new(
-                        AuthSource::from_config(user, password, None)?,
-                        format!(
-                            "http://{}:{}/",
-                            auth.host(),
-                            auth.port_u16().unwrap_or(8332)
-                        )
-                        .parse()?,
-                        &logger,
-                    )
-                }
-            },
+            rpc_client: RpcClient::new(
+                AuthSource::from_config(
+                    Some(cfg.bitcoind.user),
+                    Some(cfg.bitcoind.password),
+                    None,
+                )?,
+                format!("http://bitcoind.embassy:8332").parse()?,
+                &logger,
+            ),
             tor: Some(TorState {
                 proxy: format!("{}:9050", var("HOST_IP")?).parse()?,
                 only: cfg.advanced.tor_only,
