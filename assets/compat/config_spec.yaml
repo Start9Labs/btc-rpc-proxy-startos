@@ -1,86 +1,34 @@
 tor-address:
   name: Tor Address
-  description: The Tor address for the main interface. 
+  description: The Tor address for the main interface.
   type: pointer
   subtype: package
   package-id: btc-rpc-proxy
   target: tor-address
   interface: main
 bitcoind:
-  type: union
+  type: object
   name: Bitcoin Core
   description: The Bitcoin Core node to connect to
-  tag:
-    id: type
-    name: Type
-    description: |
-      - Internal: The Bitcoin Core service installed to your Embassy
-      - External: A Bitcoin Core node running on a different device
-      - Quick Connect: A Quick Connect URL for an unpruned Bitcoin Core node
-    variant-names:
-      internal: Internal
-      external: External
-  default: internal
-  variants:
-    internal:
-      user:
-        type: pointer
-        name: RPC Username
-        description: The username for the RPC user for Bitcoin Core
-        subtype: package
-        package-id: bitcoind
-        target: config
-        selector: "$.rpc.username"
-        multi: false
-      password:
-        type: pointer
-        name: RPC Password
-        description: The password for the RPC user for Bitcoin Core
-        subtype: package
-        package-id: bitcoind
-        target: config
-        selector: "$.rpc.password"
-        multi: false
-    external:
-      connection-settings:
-        type: union
-        name: Connection Settings
-        description: Information to connect to an external Bitcoin Core node
-        tag:
-          id: type
-          name: Type
-          description: |
-            - Manual: Raw information for finding a Bitcoin Core node
-            - Quick Connect: A Quick Connect URL for a Bitcoin Core node
-          variant-names:
-            manual: Manual
-            quick-connect: Quick Connect
-        default: quick-connect
-        variants:
-          manual:
-            addressext:
-              type: string
-              name: Public Address
-              description: The public address of your Bitcoin Core RPC server
-              nullable: false
-            userext:
-              type: string
-              name: RPC Username
-              description: The username for the RPC user on your Bitcoin Core RPC server
-              nullable: false
-            passwordext:
-              type: string
-              name: RPC Password
-              description: The password for the RPC user on your Bitcoin Core RPC server
-              nullable: false
-          quick-connect:
-            quick-connect-url:
-              type: string
-              name: Quick Connect URL
-              description: The Quick Connect URL for your Bitcoin Core RPC server
-              nullable: false
-              pattern: 'btcstandup://[^:]*:[^@]*@[a-zA-Z0-9.-]+:[0-9]+(/(\?(label=.+)?)?)?'
-              patternDescription: Must be a valid Quick Connect URL. For help, check out https://github.com/BlockchainCommons/Gordian/blob/master/Docs/Quick-Connect-API.md
+  spec:
+    user:
+      type: pointer
+      name: RPC Username
+      description: The username for the RPC user for Bitcoin Core
+      subtype: package
+      package-id: bitcoind
+      target: config
+      selector: "$.rpc.username"
+      multi: false
+    password:
+      type: pointer
+      name: RPC Password
+      description: The password for the RPC user for Bitcoin Core
+      subtype: package
+      package-id: bitcoind
+      target: config
+      selector: "$.rpc.password"
+      multi: false
 users:
   type: list
   name: RPC Users
