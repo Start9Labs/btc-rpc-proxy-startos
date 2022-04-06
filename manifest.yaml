@@ -1,7 +1,10 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
 version: 0.3.2.2
-release-notes: "Upgrade to EmbassyOS v0.3.0"
+release-notes: |
+  * Update to pull in bugfixes on the Start9 fork of Bitcoin Proxy
+  * expose log level in config
+  * removes external node support
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
 upstream-repo: "https://github.com/Kixunil/btc-rpc-proxy"
