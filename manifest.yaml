@@ -1,6 +1,6 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
-version: 0.3.2.2
+version: 0.3.2.3
 release-notes: |
   * Update to pull in bugfixes on the Start9 fork of Bitcoin Proxy
   * expose log level in config
@@ -81,7 +81,7 @@ properties:
   io-format: yaml
 dependencies:
   bitcoind:
-    version: ">=0.21.1.2 <23.0"
+    version: ">=0.21.1.2 <24.0"
     requirement:
       type: "opt-out"
       how: Can alternatively configure an external bitcoin node.
@@ -182,6 +182,14 @@ migrations:
       mounts:
         main: /root
       io-format: json
+    ">=0.3.2.3":
+      type: docker
+      image: main
+      system: false
+      entrypoint: "/bin/echo"
+      args: ['{"configured": true}']
+      io-format: json
+      inject: false
   to:
     "<0.3.2.2":
       type: docker
@@ -192,3 +200,11 @@ migrations:
       mounts:
         main: /root
       io-format: json
+    ">=0.3.2.3":
+      type: docker
+      image: main
+      system: false
+      entrypoint: "/bin/echo"
+      args: ['{"configured": true}']
+      io-format: json
+      inject: false
