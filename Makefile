@@ -12,7 +12,7 @@ all: verify
 verify: btc-rpc-proxy.s9pk $(S9PK_PATH)
 	embassy-sdk verify s9pk $(S9PK_PATH)
 
-btc-rpc-proxy.s9pk: manifest.yaml image.tar instructions.md LICENSE icon.png $(ASSET_PATHS)
+btc-rpc-proxy.s9pk: manifest.yaml image.tar instructions.md LICENSE icon.png scripts/embassy.js $(ASSET_PATHS)
 	embassy-sdk pack
 
 image.tar: Dockerfile docker_entrypoint.sh check-rpc.sh configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy
@@ -21,3 +21,5 @@ image.tar: Dockerfile docker_entrypoint.sh check-rpc.sh configurator/target/aarc
 configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy: $(BTC_RPC_PROXY_SRC) $(CONFIGURATOR_SRC)
 	docker run --rm -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:aarch64-musl sh -c "cd configurator && cargo +beta build --release"
 
+scripts/embassy.js: scripts/**/*.ts
+	deno bundle scripts/embassy.ts scripts/embassy.js
