@@ -1,6 +1,6 @@
-import { ExpectedExports, Config, matches } from "../deps.ts";
+import { matches, types as T } from "../deps.ts";
 
-const { shape, arrayOf, string, boolean } = matches;
+const { shape, boolean } = matches;
 
 const matchBitcoindConfig = shape({
     rpc: shape({
@@ -8,8 +8,9 @@ const matchBitcoindConfig = shape({
     }),
 });
 
-export const dependencies: ExpectedExports.dependencies = {
+export const dependencies: T.ExpectedExports.dependencies = {
     bitcoind: {
+        // deno-lint-ignore require-await
         async check(effects, configInput) {
             effects.info("check bitcoind");
             const config = matchBitcoindConfig.unsafeCast(configInput);
@@ -18,6 +19,7 @@ export const dependencies: ExpectedExports.dependencies = {
             }
             return { result: null };
         },
+        // deno-lint-ignore require-await
         async autoConfigure(effects, configInput) {
             effects.info("autoconfigure bitcoind");
             const config = matchBitcoindConfig.unsafeCast(configInput);
