@@ -24,7 +24,6 @@ struct UserInfo {
     pub name: String,
     pub password: String,
     pub allowed_calls: HashSet<String>,
-    pub fetch_blocks: bool,
 }
 
 #[derive(serde::Deserialize)]
@@ -198,7 +197,7 @@ async fn main() -> Result<(), Error> {
                             User {
                                 password: user.password.try_into().unwrap(),
                                 allowed_calls: user.allowed_calls,
-                                fetch_blocks: user.fetch_blocks,
+                                fetch_blocks: true,
                             },
                         )
                     })
