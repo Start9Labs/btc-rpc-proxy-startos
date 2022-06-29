@@ -360,12 +360,6 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "walletpassphrasechange",
             "walletprocesspsbt"
           ]
-        },
-        "fetch-blocks": {
-          "type": "boolean",
-          "name": "Fetch Blocks",
-          "description": "Fetch blocks from the network if pruned from disk",
-          "default": true
         }
       }
     },
