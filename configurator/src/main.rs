@@ -13,7 +13,8 @@ use tokio::sync::RwLock;
 #[serde(rename_all = "kebab-case")]
 struct Config {
     pub tor_address: String,
-    pub bitcoind: BitcoinCoreConfig,
+    pub bitcoind_user: String,
+    pub bitcoind_password: String,
     pub users: Vec<UserInfo>,
     pub advanced: AdvancedConfig,
 }
@@ -35,14 +36,6 @@ struct AdvancedConfig {
     pub max_peer_age: u64,
     pub max_peer_concurrency: Option<usize>,
     pub log_level: String,
-}
-
-#[derive(serde::Deserialize)]
-#[serde(tag = "type")]
-#[serde(rename_all = "kebab-case")]
-struct BitcoinCoreConfig {
-    user: String,
-    password: String,
 }
 
 #[derive(serde::Serialize)]
@@ -178,8 +171,8 @@ async fn main() -> Result<(), Error> {
         State {
             rpc_client: RpcClient::new(
                 AuthSource::from_config(
-                    Some(cfg.bitcoind.user),
-                    Some(cfg.bitcoind.password),
+                    Some(cfg.bitcoind_user),
+                    Some(cfg.bitcoind_password),
                     None,
                 )?,
                 format!("http://bitcoind.embassy:8332").parse()?,
