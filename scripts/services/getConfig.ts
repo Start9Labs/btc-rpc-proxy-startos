@@ -10,32 +10,25 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     "target": "tor-address",
     "interface": "main"
   },
-  "bitcoind": {
-    "type": "object",
-    "name": "Bitcoin Core",
-    "description": "The Bitcoin Core node to connect to",
-    "spec": {
-      "user": {
-        "type": "pointer",
-        "name": "RPC Username",
-        "description": "The username for the RPC user for Bitcoin Core",
-        "subtype": "package",
-        "package-id": "bitcoind",
-        "target": "config",
-        "selector": "$.rpc.username",
-        "multi": false
-      },
-      "password": {
-        "type": "pointer",
-        "name": "RPC Password",
-        "description": "The password for the RPC user for Bitcoin Core",
-        "subtype": "package",
-        "package-id": "bitcoind",
-        "target": "config",
-        "selector": "$.rpc.password",
-        "multi": false
-      }
-    }
+  "bitcoind-user": {
+    "type": "pointer",
+    "name": "RPC Username",
+    "description": "The username for the RPC user for Bitcoin Core",
+    "subtype": "package",
+    "package-id": "bitcoind",
+    "target": "config",
+    "selector": "$.rpc.username",
+    "multi": false
+  },
+  "bitcoind-password": {
+    "type": "pointer",
+    "name": "RPC Password",
+    "description": "The password for the RPC user for Bitcoin Core",
+    "subtype": "package",
+    "package-id": "bitcoind",
+    "target": "config",
+    "selector": "$.rpc.password",
+    "multi": false
   },
   "users": {
     "type": "list",
