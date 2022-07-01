@@ -1,5 +1,4 @@
 ASSET_PATHS := $(shell find ./assets/*)
-VERSION := $(shell toml get btc-rpc-proxy/Cargo.toml package.version)
 EMVER := $(shell yq e ".version" manifest.yaml)
 BTC_RPC_PROXY_SRC := $(shell find ./btc-rpc-proxy/src -name '*.rs') btc-rpc-proxy/Cargo.toml btc-rpc-proxy/Cargo.lock
 CONFIGURATOR_SRC := $(shell find ./configurator/src -name '*.rs') configurator/Cargo.toml configurator/Cargo.lock
