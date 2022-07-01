@@ -24,7 +24,6 @@ main:
   args: []
   mounts:
     main: /root
-  io-format: yaml
 health-checks:
   rpc:
     name: RPC
