@@ -107,11 +107,11 @@ backup:
     io-format: yaml
 migrations:
   from:
-    "<0.3.2.2":
+    "<=0.3.2.2":
       type: docker
       image: main
       system: false
-      entrypoint: /usr/local/bin/migrations/from_lt_0_3_2_2.sh
+      entrypoint: /usr/local/bin/migrations/from_lte_0_3_2_2.sh
       args: []
       mounts:
         main: /root
@@ -134,7 +134,7 @@ migrations:
       mounts:
         main: /root
       io-format: json
-    ">=0.3.2.3":
+    ">=0.3.2.2":
       type: docker
       image: main
       system: false
