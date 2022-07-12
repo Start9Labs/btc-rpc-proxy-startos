@@ -1,8 +1,8 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
-version: 0.3.2.3
+version: 0.3.2.4
 release-notes: |
-  * Switch to using new EOS apis for faster configuration and properties
+  * Fix migrations from old versions
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
 upstream-repo: "https://github.com/Kixunil/btc-rpc-proxy"
@@ -107,11 +107,20 @@ backup:
     io-format: yaml
 migrations:
   from:
-    "<=0.3.2.2":
+    "<0.3.2.2":
       type: docker
       image: main
       system: false
-      entrypoint: /usr/local/bin/migrations/from_lte_0_3_2_2.sh
+      entrypoint: /usr/local/bin/migrations/from_lt_0_3_2_2.sh
+      args: []
+      mounts:
+        main: /root
+      io-format: json
+    "=0.3.2.2":
+      type: docker
+      image: main
+      system: false
+      entrypoint: /usr/local/bin/migrations/from_0_3_2_2.sh
       args: []
       mounts:
         main: /root
@@ -134,7 +143,16 @@ migrations:
       mounts:
         main: /root
       io-format: json
-    ">=0.3.2.2":
+    "=0.3.2.2":
+      type: docker
+      image: main
+      system: false
+      entrypoint: /usr/local/bin/migrations/to_0_3_2_2.sh
+      args: []
+      mounts:
+        main: /root
+      io-format: json
+    ">0.3.2.2":
       type: docker
       image: main
       system: false
