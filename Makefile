@@ -1,5 +1,6 @@
 ASSET_PATHS := $(shell find ./assets/*)
 EMVER := $(shell yq e ".version" manifest.yaml)
+SCRIPTS_SRC := $(shell find ./scripts -name '*.ts')
 BTC_RPC_PROXY_SRC := $(shell find ./btc-rpc-proxy/src -name '*.rs') btc-rpc-proxy/Cargo.toml btc-rpc-proxy/Cargo.lock
 CONFIGURATOR_SRC := $(shell find ./configurator/src -name '*.rs') configurator/Cargo.toml configurator/Cargo.lock
 S9PK_PATH=$(shell find . -name btc-rpc-proxy.s9pk -print)
@@ -20,5 +21,5 @@ image.tar: Dockerfile docker_entrypoint.sh check-rpc.sh configurator/target/aarc
 configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy: $(BTC_RPC_PROXY_SRC) $(CONFIGURATOR_SRC)
 	docker run --rm -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)":/home/rust/src start9/rust-musl-cross:aarch64-musl sh -c "cd configurator && cargo +beta build --release"
 
-scripts/embassy.js: scripts/**/*.ts
+scripts/embassy.js: $(SCRIPTS_SRC)
 	deno bundle scripts/embassy.ts scripts/embassy.js

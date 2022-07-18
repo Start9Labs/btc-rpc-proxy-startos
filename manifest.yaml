@@ -1,6 +1,6 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
-version: 0.3.2.4
+version: 0.3.2.5
 release-notes: |
   * Fix migrations from old versions
 license: mit
@@ -107,56 +107,10 @@ backup:
     io-format: yaml
 migrations:
   from:
-    "<0.3.2.2":
-      type: docker
-      image: main
-      system: false
-      entrypoint: /usr/local/bin/migrations/from_lt_0_3_2_2.sh
-      args: []
-      mounts:
-        main: /root
-      io-format: json
-    "=0.3.2.2":
-      type: docker
-      image: main
-      system: false
-      entrypoint: /usr/local/bin/migrations/from_0_3_2_2.sh
-      args: []
-      mounts:
-        main: /root
-      io-format: json
-    ">=0.3.2.3":
-      type: docker
-      image: main
-      system: false
-      entrypoint: "/bin/echo"
-      args: ['{"configured": true}']
-      io-format: json
-      inject: false
+    "*":
+      type: script
+      args: ["from"]
   to:
-    "<0.3.2.2":
-      type: docker
-      image: main
-      system: false
-      entrypoint: /usr/local/bin/migrations/to_lt_0_3_2_2.sh
-      args: []
-      mounts:
-        main: /root
-      io-format: json
-    "=0.3.2.2":
-      type: docker
-      image: main
-      system: false
-      entrypoint: /usr/local/bin/migrations/to_0_3_2_2.sh
-      args: []
-      mounts:
-        main: /root
-      io-format: json
-    ">0.3.2.2":
-      type: docker
-      image: main
-      system: false
-      entrypoint: "/bin/echo"
-      args: ['{"configured": true}']
-      io-format: json
-      inject: false
+    "*":
+      type: script
+      args: ["to"]
