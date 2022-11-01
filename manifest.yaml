@@ -1,9 +1,8 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
-version: 0.3.2.5
+version: 0.3.2.6
 release-notes: |
-  * Fix migrations from old versions
-  * Add missing RPCs
+  * Update bitcoin library
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
 upstream-repo: "https://github.com/Kixunil/btc-rpc-proxy"
