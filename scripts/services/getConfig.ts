@@ -8,7 +8,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     "subtype": "package",
     "package-id": "btc-rpc-proxy",
     "target": "tor-address",
-    "interface": "main"
+    "interface": "main",
   },
   "bitcoind-user": {
     "type": "pointer",
@@ -18,7 +18,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     "package-id": "bitcoind",
     "target": "config",
     "selector": "$.rpc.username",
-    "multi": false
+    "multi": false,
   },
   "bitcoind-password": {
     "type": "pointer",
@@ -28,7 +28,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     "package-id": "bitcoind",
     "target": "config",
     "selector": "$.rpc.password",
-    "multi": false
+    "multi": false,
   },
   "users": {
     "type": "list",
@@ -46,7 +46,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
           "description": "The username for the RPC User",
           "nullable": false,
           "default": "bitcoin",
-          "copyable": true
+          "copyable": true,
         },
         "password": {
           "type": "string",
@@ -57,13 +57,14 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
           "masked": true,
           "default": {
             "charset": "a-z,A-Z,0-9",
-            "len": 22
-          }
+            "len": 22,
+          },
         },
         "allowed-calls": {
           "type": "list",
           "name": "Allowed Calls",
-          "description": "The list of all RPC methods this user is allowed to make",
+          "description":
+            "The list of all RPC methods this user is allowed to make",
           "subtype": "enum",
           "range": "[0, *)",
           "spec": {
@@ -71,8 +72,10 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "values": [
               "abandontransaction",
               "abortrescan",
+              "addconnection",
               "addmultisigaddress",
               "addnode",
+              "addpeeraddress",
               "analyzepsbt",
               "backupwallet",
               "bumpfee",
@@ -90,9 +93,13 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "deriveaddresses",
               "disconnectnode",
               "dumpprivkey",
+              "dumptxoutset",
               "dumpwallet",
               "echo",
+              "echoipc",
+              "echojson",
               "encryptwallet",
+              "estimaterawfee",
               "estimatesmartfee",
               "finalizepsbt",
               "fundrawtransaction",
@@ -112,11 +119,13 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "getblockfilter",
               "getblockhash",
               "getblockheader",
+              "getblockfrompeer",
               "getblockstats",
               "getblocktemplate",
               "getchaintips",
               "getchaintxstats",
               "getconnectioncount",
+              "getdeploymentinfo",
               "getdescriptorinfo",
               "getdifficulty",
               "getindexinfo",
@@ -143,6 +152,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "gettxout",
               "gettxoutproof",
               "gettxoutsetinfo",
+              "gettxspendingprevout",
               "getunconfirmedbalance",
               "getwalletinfo",
               "getzmqnotifications",
@@ -154,6 +164,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "importprunedfunds",
               "importpubkey",
               "importwallet",
+              "invalidateblock",
               "joinpsbts",
               "keypoolrefill",
               "listaddressgroupings",
@@ -170,11 +181,13 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "loadwallet",
               "lockunspent",
               "logging",
+              "mockscheduler",
               "ping",
               "preciousblock",
               "prioritisetransaction",
               "pruneblockchain",
               "psbtbumpfee",
+              "reconsiderblock",
               "removeprunedfunds",
               "rescanblockchain",
               "savemempool",
@@ -186,6 +199,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "setban",
               "sethdseed",
               "setlabel",
+              "setmocktime",
               "setnetworkactive",
               "settxfee",
               "setwalletflag",
@@ -196,6 +210,8 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "stop",
               "submitblock",
               "submitheader",
+              "submitpackage",
+              "syncwithvalidationinterfacequeue",
               "testmempoolaccept",
               "unloadwallet",
               "upgradewallet",
@@ -205,18 +221,23 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "verifychain",
               "verifymessage",
               "verifytxoutproof",
+              "waitforblock",
+              "waitforblockheight",
+              "waitfornewblock",
               "walletcreatefundedpsbt",
               "walletlock",
               "walletpassphrase",
               "walletpassphrasechange",
-              "walletprocesspsbt"
-            ]
+              "walletprocesspsbt",
+            ],
           },
           "default": [
             "abandontransaction",
             "abortrescan",
+            "addconnection",
             "addmultisigaddress",
             "addnode",
+            "addpeeraddress",
             "analyzepsbt",
             "backupwallet",
             "bumpfee",
@@ -233,9 +254,13 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "decodescript",
             "deriveaddresses",
             "disconnectnode",
+            "dumptxoutset",
             "dumpwallet",
             "echo",
+            "echoipc",
+            "echojson",
             "encryptwallet",
+            "estimaterawfee",
             "estimatesmartfee",
             "finalizepsbt",
             "fundrawtransaction",
@@ -255,11 +280,13 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "getblockfilter",
             "getblockhash",
             "getblockheader",
+            "getblockfrompeer",
             "getblockstats",
             "getblocktemplate",
             "getchaintips",
             "getchaintxstats",
             "getconnectioncount",
+            "getdeploymentinfo",
             "getdescriptorinfo",
             "getdifficulty",
             "getindexinfo",
@@ -286,6 +313,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "gettxout",
             "gettxoutproof",
             "gettxoutsetinfo",
+            "gettxspendingprevout",
             "getunconfirmedbalance",
             "getwalletinfo",
             "getzmqnotifications",
@@ -297,6 +325,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "importprunedfunds",
             "importpubkey",
             "importwallet",
+            "invalidateblock",
             "joinpsbts",
             "keypoolrefill",
             "listaddressgroupings",
@@ -313,11 +342,13 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "loadwallet",
             "lockunspent",
             "logging",
+            "mockscheduler",
             "ping",
             "preciousblock",
             "prioritisetransaction",
             "pruneblockchain",
             "psbtbumpfee",
+            "reconsiderblock",
             "removeprunedfunds",
             "rescanblockchain",
             "savemempool",
@@ -329,6 +360,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "setban",
             "sethdseed",
             "setlabel",
+            "setmocktime",
             "setnetworkactive",
             "settxfee",
             "setwalletflag",
@@ -338,6 +370,8 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "signmessagewithprivkey",
             "submitblock",
             "submitheader",
+            "submitpackage",
+            "syncwithvalidationinterfacequeue",
             "testmempoolaccept",
             "unloadwallet",
             "upgradewallet",
@@ -347,24 +381,25 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
             "verifychain",
             "verifymessage",
             "verifytxoutproof",
+            "waitforblock",
+            "waitforblockheight",
+            "waitfornewblock",
             "walletcreatefundedpsbt",
             "walletlock",
             "walletpassphrase",
             "walletpassphrasechange",
-            "walletprocesspsbt"
-          ]
+            "walletprocesspsbt",
+          ],
         },
         "fetch-blocks": {
           "type": "boolean",
           "name": "Fetch Blocks",
           "description": "Fetch blocks from the network if pruned from disk",
-          "default": true
-        }
-      }
+          "default": true,
+        },
+      },
     },
-    "default": [
-
-    ]
+    "default": [],
   },
   "advanced": {
     "type": "object",
@@ -375,17 +410,18 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
         "type": "boolean",
         "name": "Only Tor Peers",
         "description": "Use Tor for all peer connections",
-        "default": false
+        "default": false,
       },
       "peer-timeout": {
         "type": "number",
         "name": "Peer Message Timeout",
-        "description": "How long to wait for a response from a peer before failing",
+        "description":
+          "How long to wait for a response from a peer before failing",
         "nullable": false,
         "integral": true,
         "units": "Seconds",
         "range": "[0, *)",
-        "default": 30
+        "default": 30,
       },
       "max-peer-age": {
         "type": "number",
@@ -395,16 +431,17 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
         "integral": true,
         "units": "Seconds",
         "range": "[0, *)",
-        "default": 300
+        "default": 300,
       },
       "max-peer-concurrency": {
         "type": "number",
         "name": "Maximum Peer Concurrency",
-        "description": "How many peers to reach out to concurrently for block data",
+        "description":
+          "How many peers to reach out to concurrently for block data",
         "nullable": true,
         "integral": true,
         "range": "[1, *)",
-        "default": 1
+        "default": 1,
       },
       "log-level": {
         "type": "enum",
@@ -415,7 +452,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
           "WARN",
           "INFO",
           "DEBUG",
-          "TRACE"
+          "TRACE",
         ],
         "value-names": {
           "CRITICAL": "Critical",
@@ -423,10 +460,10 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
           "WARN": "Warning",
           "INFO": "Info",
           "DEBUG": "Debug",
-          "TRACE": "Trace"
+          "TRACE": "Trace",
         },
-        "default": "DEBUG"
-      }
-    }
-  }
-})
+        "default": "DEBUG",
+      },
+    },
+  },
+});
