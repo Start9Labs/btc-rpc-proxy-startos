@@ -10,7 +10,6 @@ S9PK_PATH=$(shell find . -name btc-rpc-proxy.s9pk -print)
 
 all: verify
 
-
 clean:
 	rm -f $(PKG_ID).s9pk
 	rm -f docker-images/*.tar
