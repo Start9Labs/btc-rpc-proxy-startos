@@ -6,7 +6,6 @@ PKG_ID := $(shell yq e ".id" manifest.yaml)
 SCRIPTS_SRC := $(shell find ./scripts -name '*.ts')
 S9PK_PATH=$(shell find . -name btc-rpc-proxy.s9pk -print)
 
-
 .DELETE_ON_ERROR:
 
 all: verify
