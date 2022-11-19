@@ -9,7 +9,6 @@ ARG ARCH
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${PLATFORM} && chmod +x /usr/local/bin/yq
 
 
-
 ADD ./configurator/target/${ARCH}-unknown-linux-musl/release/btc-rpc-proxy /usr/local/bin/btc-rpc-proxy
 RUN chmod a+x /usr/local/bin/btc-rpc-proxy
 ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
