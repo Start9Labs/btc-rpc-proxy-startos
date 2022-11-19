@@ -1,5 +1,5 @@
 # Build stage for compiled artifacts
-FROM alpine:latest 
+FROM alpine:latest
 
 RUN apk update
 RUN apk add bash curl tini
