@@ -23,7 +23,6 @@ containers:
     mounts:
       main: /root/.bitcoin
       compat: /mnt/assets
-    sigterm-timeout: 5m
 main:
   type: script
 health-checks:
