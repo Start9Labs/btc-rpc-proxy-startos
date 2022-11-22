@@ -21,8 +21,7 @@ containers:
   main:
     image: main
     mounts:
-      main: /root/.bitcoin
-      compat: /mnt/assets
+      main: /root
 main:
   type: script
 health-checks:
