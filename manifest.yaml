@@ -1,8 +1,8 @@
 id: btc-rpc-proxy
 title: Bitcoin Proxy
-version: 0.3.2.6
+version: 0.3.2.7
 release-notes: |
-  * Update bitcoin library
+  * Add build for x86
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
 upstream-repo: "https://github.com/Kixunil/btc-rpc-proxy"
@@ -16,7 +16,6 @@ assets:
   license: LICENSE
   icon: icon.png
   instructions: instructions.md
-  docker-images: image.tar
 main:
   type: docker
   image: main
