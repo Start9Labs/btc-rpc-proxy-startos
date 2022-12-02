@@ -1,4 +1,3 @@
-ASSET_PATHS := $(shell find ./assets/*)
 BTC_RPC_PROXY_SRC := $(shell find ./btc-rpc-proxy/src -name '*.rs') btc-rpc-proxy/Cargo.toml btc-rpc-proxy/Cargo.lock
 CONFIGURATOR_SRC := $(shell find ./configurator/src -name '*.rs') configurator/Cargo.toml configurator/Cargo.lock
 PKG_VERSION := $(shell yq e ".version" manifest.yaml)
@@ -18,7 +17,7 @@ clean:
 verify: btc-rpc-proxy.s9pk $(S9PK_PATH)
 	embassy-sdk verify s9pk $(S9PK_PATH)
 
-$(PKG_ID).s9pk: manifest.yaml docker-images/aarch64.tar docker-images/x86_64.tar instructions.md LICENSE icon.png scripts/embassy.js $(ASSET_PATHS)
+$(PKG_ID).s9pk: manifest.yaml docker-images/aarch64.tar docker-images/x86_64.tar instructions.md LICENSE icon.png scripts/embassy.js
 	embassy-sdk pack
 
 docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh check-rpc.sh configurator/target/aarch64-unknown-linux-musl/btc-rpc-proxy
