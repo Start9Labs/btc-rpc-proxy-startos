@@ -42,7 +42,7 @@ properties:
   type: script
 dependencies:
   bitcoind:
-    version: ">=0.21.1.2 <24.0"
+    version: ">=0.21.1.2 <26.0.0"
     requirement:
       type: "opt-out"
       how: Can alternatively configure an external bitcoin node.
@@ -55,8 +55,6 @@ dependencies:
 volumes:
   main:
     type: data
-  compat:
-    type: assets
 alerts:
   install: |
     After installing, you will need to manually enable the new RPC requests if you intend to use them. We strongly recommend enabling ALL requests for your primary user.
