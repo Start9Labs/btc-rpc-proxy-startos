@@ -3,6 +3,7 @@ title: Bitcoin Proxy
 version: 0.3.2.7
 release-notes: |
   * Add build for x86
+  * Bump bitcoind version requirement to accommodate bitcoind v24 and v25
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/btc-rpc-proxy-wrapper"
 upstream-repo: "https://github.com/Kixunil/btc-rpc-proxy"
